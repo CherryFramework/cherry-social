@@ -33,7 +33,7 @@ if ( !class_exists( 'Cherry_Social' ) ) {
 		 * @since 1.0.0
 		 * @var   string
 		 */
-		protected $plugin_slug = 'cherry_social';
+		protected $plugin_slug = 'cherry-social';
 
 		/**
 		 * Instance of this class.
@@ -87,7 +87,8 @@ if ( !class_exists( 'Cherry_Social' ) ) {
 			add_filter( 'cherry_defaults_settings',      array( $this, 'add_cherry_options' ), 11 );
 
 			// Load public-facing style sheet and JavaScript.
-			add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_styles' ) );
+			add_action( 'wp_enqueue_scripts',         array( $this, 'enqueue_styles' ) );
+			add_filter( 'cherry_compiler_static_css', array( $this, 'add_style_to_compiler' ) );
 			// add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 
 			// Register activation and deactivation hook.
@@ -101,12 +102,12 @@ if ( !class_exists( 'Cherry_Social' ) ) {
 		 * @since 1.0.0
 		 */
 		public function constants() {
-			define( 'CHERRY_SOCIAL_DIR',    trailingslashit( plugin_dir_path( __FILE__ ) ) );
-			define( 'CHERRY_SOCIAL_URI',    trailingslashit( plugin_dir_url( __FILE__ ) ) );
-			define( 'CHERRY_SOCIAL_ADMIN',  CHERRY_SOCIAL_DIR . 'admin' );
-			define( 'CHERRY_SOCIAL_PUBLIC', CHERRY_SOCIAL_DIR . 'public' );
 			define( 'CHERRY_SOCIAL_VERSION', '1.0.0' );
-			define( 'CHERRY_SOCIAL_SLUG', basename( dirname( __FILE__ ) ) );
+			define( 'CHERRY_SOCIAL_SLUG',    basename( dirname( __FILE__ ) ) );
+			define( 'CHERRY_SOCIAL_DIR',     trailingslashit( plugin_dir_path( __FILE__ ) ) );
+			define( 'CHERRY_SOCIAL_URI',     trailingslashit( plugin_dir_url( __FILE__ ) ) );
+			define( 'CHERRY_SOCIAL_ADMIN',   CHERRY_SOCIAL_DIR . 'admin' );
+			define( 'CHERRY_SOCIAL_PUBLIC',  CHERRY_SOCIAL_DIR . 'public' );
 		}
 
 		/**
@@ -148,10 +149,10 @@ if ( !class_exists( 'Cherry_Social' ) ) {
 				require_once( CHERRY_SOCIAL_DIR . 'admin/includes/class-cherry-update/class-cherry-plugin-update.php' );
 
 				$Cherry_Plugin_Update = new Cherry_Plugin_Update();
-				$Cherry_Plugin_Update -> init( array(
-						'version'			=> CHERRY_SOCIAL_VERSION,
-						'slug'				=> CHERRY_SOCIAL_SLUG,
-						'repository_name'	=> CHERRY_SOCIAL_SLUG
+				$Cherry_Plugin_Update->init( array(
+					'version'         => CHERRY_SOCIAL_VERSION,
+					'slug'            => CHERRY_SOCIAL_SLUG,
+					'repository_name' => CHERRY_SOCIAL_SLUG,
 				));
 			}
 		}
@@ -176,6 +177,22 @@ if ( !class_exists( 'Cherry_Social' ) ) {
 			);
 
 			wp_enqueue_style( $this->plugin_slug );
+		}
+
+		/**
+		 * Pass style handle to CSS compiler.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param array $handles CSS handles to compile.
+		 */
+		function add_style_to_compiler( $handles ) {
+			$handles = array_merge(
+				array( $this->plugin_slug => plugins_url( 'public/assets/css/public.css', __FILE__ ) ),
+				$handles
+			);
+
+			return $handles;
 		}
 
 		/**
