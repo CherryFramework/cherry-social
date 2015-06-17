@@ -38,7 +38,7 @@ new cherry_social_follow_static( array(
 		'col-sm'   => 'col-sm-12', // (optional) Column class for a tablets (≥768px)
 		'col-xs'   => 'col-xs-12', // (optional) Column class for a phones (<768px)
 		'position' => 1, // (optional) Position in static area (1 - first static, 2 - second static, etc.)
-		'area'     => 'static-area-id', // (required) ID for static area
+		'area'     => 'available-statics', // (required) ID for static area
 		'collapse' => false, // (required) Collapse column paddings?
 	) )
 );
