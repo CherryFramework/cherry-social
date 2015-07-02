@@ -4,23 +4,20 @@ if ( ! defined( 'WPINC' ) ) {
 	die;
 } ?>
 
-<div class="fb-like-box"
+<div class="fb-page"
 	data-href="<?php echo $page_url; ?>"
-	data-colorscheme="<?php echo $skin; ?>"
-	data-show-faces="<?php echo $faces; ?>"
-	data-header="<?php echo $header; ?>"
-	data-stream="<?php echo $stream; ?>"
-	data-show-border="<?php echo $border; ?>"
 	data-height="<?php echo $height; ?>"
-	>
+	data-hide-cover="<?php echo $cover; ?>"
+	data-small-header="<?php echo $header; ?>"
+	data-show-facepile="<?php echo $faces; ?>"
+	data-show-posts="<?php echo $posts; ?>"
+	data-adapt-container-width="true">
 </div>
 
-<script>
-	(function(d, s, id) {
-		var js, fjs = d.getElementsByTagName(s)[0];
-		if (d.getElementById(id)) return;
-		js = d.createElement(s); js.id = id;
-		js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.0";
-		fjs.parentNode.insertBefore(js, fjs);
-	}(document, 'script', 'facebook-jssdk'));
-</script>
+<script>(function(d, s, id) {
+	var js, fjs = d.getElementsByTagName(s)[0];
+	if (d.getElementById(id)) return;
+	js = d.createElement(s); js.id = id;
+	js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.3";
+	fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>

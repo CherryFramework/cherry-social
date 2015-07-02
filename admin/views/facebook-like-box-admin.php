@@ -29,34 +29,25 @@ do_action( 'cherry_facebook_like_box_widget_form_before' );
 	<label for="<?php echo $this->get_field_id( 'height' ); ?>"><?php _e( 'Height (px):', 'cherry-social' ); ?></label>
 	<input type="number" min="70" max="2000" step="10" name="<?php echo $this->get_field_name( 'height' ); ?>" value="<?php echo $height; ?>" class="widefat" id="<?php echo $this->get_field_id( 'height' ); ?>" placeholder="<?php sprintf( _e( 'Default (%spx)', 'cherry-social' ), $height ); ?>" /><br>
 </p>
-<!-- Widget Skin: Select Input -->
+<!-- Widget Cover: Checkbox -->
 <p>
-	<label for="<?php echo $this->get_field_id( 'skin' ); ?>"><?php _e( 'Skin:', 'cherry-social' ); ?></label>
-	<select name="<?php echo $this->get_field_name( 'skin' ); ?>" class="widefat" id="<?php echo $this->get_field_id( 'skin' ); ?>">
-	<?php foreach ( $skin as $k => $v ) { ?>
-		<option value="<?php echo $k; ?>"<?php selected( $instance['skin'], $k ); ?>><?php echo $v; ?></option>
-	<?php } ?>
-	</select>
+	<input id="<?php echo $this->get_field_id( 'cover' ); ?>" name="<?php echo $this->get_field_name( 'cover' ); ?>" type="checkbox" <?php checked( $cover ); ?>>
+	<label for="<?php echo $this->get_field_id( 'cover' ); ?>"><?php _e( 'Hide cover photo in the header', 'cherry-social' ); ?></label>
 </p>
 <!-- Widget Header: Checkbox -->
 <p>
 	<input id="<?php echo $this->get_field_id( 'header' ); ?>" name="<?php echo $this->get_field_name( 'header' ); ?>" type="checkbox" <?php checked( $header ); ?>>
-	<label for="<?php echo $this->get_field_id( 'header' ); ?>"><?php _e( 'Display header?', 'cherry-social' ); ?></label>
-</p>
-<!-- Widget Borders: Checkbox -->
-<p>
-	<input id="<?php echo $this->get_field_id( 'border' ); ?>" name="<?php echo $this->get_field_name( 'border' ); ?>" type="checkbox" <?php checked( $border ); ?>>
-	<label for="<?php echo $this->get_field_id( 'border' ); ?>"><?php _e( 'Display border?', 'cherry-social' ); ?></label>
-</p>
-<!-- Widget Stream: Checkbox -->
-<p>
-	<input id="<?php echo $this->get_field_id( 'stream' ); ?>" name="<?php echo $this->get_field_name( 'stream' ); ?>" type="checkbox" <?php checked( $stream ); ?>>
-	<label for="<?php echo $this->get_field_id( 'stream' ); ?>"><?php _e( 'Display stream?', 'cherry-social' ); ?></label>
+	<label for="<?php echo $this->get_field_id( 'header' ); ?>"><?php _e( 'Use the small header instead', 'cherry-social' ); ?></label>
 </p>
 <!-- Widget Faces: Checkbox -->
 <p>
 	<input id="<?php echo $this->get_field_id( 'faces' ); ?>" name="<?php echo $this->get_field_name( 'faces' ); ?>" type="checkbox" <?php checked( $faces ); ?>>
-	<label for="<?php echo $this->get_field_id( 'faces' ); ?>"><?php _e( 'Display faces?', 'cherry-social' ); ?></label>
+	<label for="<?php echo $this->get_field_id( 'faces' ); ?>"><?php _e( 'Show profile photos when friends like this', 'cherry-social' ); ?></label>
+</p>
+<!-- Widget Posts: Checkbox -->
+<p>
+	<input id="<?php echo $this->get_field_id( 'posts' ); ?>" name="<?php echo $this->get_field_name( 'posts' ); ?>" type="checkbox" <?php checked( $posts ); ?>>
+	<label for="<?php echo $this->get_field_id( 'posts' ); ?>"><?php _e( "Show posts from the Page's timeline", 'cherry-social' ); ?></label>
 </p>
 <?php
 /**

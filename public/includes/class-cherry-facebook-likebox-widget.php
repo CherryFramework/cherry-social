@@ -113,12 +113,10 @@ if ( !class_exists( 'Cherry_Facebook_Like_Box' ) ) {
 
 			$page_url = esc_url( $instance['page_url'] );
 			$height   = !empty( $instance['height'] ) ? absint( $instance['height'] ) : '';
-			$skin     = ( !empty( $instance['skin'] ) && in_array( $instance['skin'], array_keys( $this->get_skin_options() ) ) ) ? $instance['skin'] : '';
-
-			$header = !empty( $instance['header'] ) ? 1 : 0;
-			$border = !empty( $instance['border'] ) ? 1 : 0;
-			$stream = !empty( $instance['stream'] ) ? 1 : 0;
-			$faces  = !empty( $instance['faces'] )  ? 1 : 0;
+			$cover    = !empty( $instance['cover'] ) ? 1 : 0;
+			$header   = !empty( $instance['header'] ) ? 1 : 0;
+			$faces    = !empty( $instance['faces'] )  ? 1 : 0;
+			$posts    = !empty( $instance['posts'] ) ? 1 : 0;
 
 			ob_start();
 			include( trailingslashit( CHERRY_SOCIAL_PUBLIC ) . 'views/facebook-like-box.php' );
@@ -156,11 +154,10 @@ if ( !class_exists( 'Cherry_Facebook_Like_Box' ) ) {
 			$instance['title']    = strip_tags( $new_instance['title'] );
 			$instance['page_url'] = esc_url( $new_instance['page_url'] );
 			$instance['height']   = absint( $new_instance['height'] );
+			$instance['cover']    = !empty( $new_instance['cover'] ) ? 1 : 0;
 			$instance['header']   = !empty( $new_instance['header'] ) ? 1 : 0;
-			$instance['border']   = !empty( $new_instance['border'] ) ? 1 : 0;
-			$instance['stream']   = !empty( $new_instance['stream'] ) ? 1 : 0;
 			$instance['faces']    = !empty( $new_instance['faces'] )  ? 1 : 0;
-			$instance['skin']     = esc_attr( $new_instance['skin'] );
+			$instance['posts']    = !empty( $new_instance['posts'] ) ? 1 : 0;
 
 			return $instance;
 		}
@@ -182,38 +179,23 @@ if ( !class_exists( 'Cherry_Facebook_Like_Box' ) ) {
 				'title'    => '',
 				'page_url' => '',
 				'height'   => 250,
-				'skin'     => 'light',
-				'faces'    => 1,
-				'header'   => 0,
-				'stream'   => 0,
-				'border'   => 0,
+				'cover'    => 0,
+				'header'   => 1,
+				'faces'    => 0,
+				'posts'    => 1,
 			) );
 
 			$instance = wp_parse_args( (array) $instance, $defaults );
 			$title    = esc_attr( $instance['title'] );
 			$page_url = esc_url( $instance['page_url'] );
 			$height   = intval( $instance['height'] );
-			$skin     = $this->get_skin_options();
+			$cover    = (bool) $instance['cover'];
 			$faces    = (bool) $instance['faces'];
 			$header   = (bool) $instance['header'];
-			$stream   = (bool) $instance['stream'];
-			$border   = (bool) $instance['border'];
+			$posts    = (bool) $instance['posts'];
 
 			// Display the admin form.
 			include( trailingslashit( CHERRY_SOCIAL_ADMIN ) . 'views/facebook-like-box-admin.php' );
-		}
-
-		/**
-		 * Get an array of the available orderby options.
-		 *
-		 * @since  1.0.0
-		 * @return array
-		 */
-		public function get_skin_options() {
-			return apply_filters( 'cherry_facebook_like_box_get_skin_options', array(
-				'light' => __( 'Light', 'cherry-social' ),
-				'dark'  => __( 'Dark', 'cherry-social' ),
-			) );
 		}
 
 	}
