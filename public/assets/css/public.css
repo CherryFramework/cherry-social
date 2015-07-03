@@ -101,6 +101,30 @@
   width: 100% !important;
 }
 
+/*--------------------------
+# Instagram widget
+--------------------------*/
+.cherry-instagram_items {
+  margin-left: -15px;
+  margin-right: -15px;
+  font: 0/0 a;
+  color: transparent;
+  text-shadow: none;
+  background-color: transparent;
+  border: 0;
+}
+.cherry-instagram_item {
+  display: inline-block;
+  vertical-align: top;
+  width: 50%;
+  padding: 0 15px 15px 15px;
+  font: normal 12px/20px Arial, 'Helvetica Neue', Helvetica, sans-serif;
+  color: #666;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
 /* Clearfix */
 .clearfix:before, .clearfix:after {
   content: " ";

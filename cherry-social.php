@@ -136,6 +136,7 @@ if ( !class_exists( 'Cherry_Social' ) ) {
 			require_once( trailingslashit( CHERRY_SOCIAL_PUBLIC ) . 'includes/class-cherry-twitter-timeline-widget.php' );
 			require_once( trailingslashit( CHERRY_SOCIAL_PUBLIC ) . 'includes/class-cherry-facebook-likebox-widget.php' );
 			require_once( trailingslashit( CHERRY_SOCIAL_PUBLIC ) . 'includes/class-cherry-social-follow-widget.php' );
+			require_once( trailingslashit( CHERRY_SOCIAL_PUBLIC ) . 'includes/class-cherry-instagram-widget.php' );
 		}
 
 		/**
