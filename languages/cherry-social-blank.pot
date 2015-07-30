@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: blank\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-20 17:27+0300\n"
+"POT-Creation-Date: 2015-07-30 16:59+0300\n"
 "PO-Revision-Date: 2015-04-06 06:14+0300\n"
 "Last-Translator: Vladimir Anokhin <ano.vladimir@gmail.com>\n"
 "Language-Team: Cherry Team <support@cherryframework.com>\n"
@@ -15,7 +15,7 @@ msgstr ""
 "esc_attr__;_x:1,2c;_n:1,2\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-SourceCharset: UTF-8\n"
-"X-Generator: Poedit 1.8.2\n"
+"X-Generator: Poedit 1.8.3\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Poedit-SearchPath-0: .\n"
 
@@ -55,11 +55,11 @@ msgid "Default (%spx)"
 msgstr ""
 
 #: admin/views/facebook-like-box-admin.php:35
-msgid "Hide cover photo in the header"
+msgid "Hide cover photo in header"
 msgstr ""
 
 #: admin/views/facebook-like-box-admin.php:40
-msgid "Use the small header instead"
+msgid "Use small header instead"
 msgstr ""
 
 #: admin/views/facebook-like-box-admin.php:45
@@ -105,7 +105,7 @@ msgstr ""
 #, php-format
 msgid ""
 "Follow this %s and create the application. After that you will get your "
-"applications data where you will see the CLIENT ID."
+"application data where you will see the CLIENT ID."
 msgstr ""
 
 #: admin/views/instagram-admin.php:50
@@ -152,9 +152,9 @@ msgstr ""
 #: admin/views/twitter-timeline-admin.php:25
 #, php-format
 msgid ""
-"ID of your widget. First of all you need make a new one widget on %s. After "
-"it copy and paste here ID of widget. You can find it after creating of "
-"widget in browser's URL field. It contents only numbers."
+"Your widget ID. First of all you need  to make a new widget on %s. After "
+"that copy and paste widget ID here. You can find it after creating the "
+"widget in browser's URL field. It contains only numbers."
 msgstr ""
 
 #: admin/views/twitter-timeline-admin.php:34
@@ -223,7 +223,7 @@ msgid "Follow Us title"
 msgstr ""
 
 #: cherry-social.php:733
-msgid "This title are using in `Follow Us` static."
+msgid "This title is used in `Follow Us` static."
 msgstr ""
 
 #: cherry-social.php:734 init/statics/social-follow.php:33
@@ -263,7 +263,7 @@ msgid "A widget for Facebook Like Box."
 msgstr ""
 
 #: public/includes/class-cherry-facebook-likebox-widget.php:83
-msgid "Please, enter URL to the your facebook page."
+msgid "Please, enter the URL of your facebook page."
 msgstr ""
 
 #: public/includes/class-cherry-instagram-widget.php:37
@@ -319,7 +319,7 @@ msgid "A social follow widget."
 msgstr ""
 
 #: public/includes/class-cherry-social-follow-widget.php:96
-msgid "Sorry, but networks not found."
+msgid "Sorry, but networks are not found."
 msgstr ""
 
 #: public/includes/class-cherry-social-shortcodes.php:172
@@ -359,7 +359,7 @@ msgid "A widget for Twitter timeline."
 msgstr ""
 
 #: public/includes/class-cherry-twitter-timeline-widget.php:87
-msgid "Please, enter ID of your Twitter widget."
+msgid "Please, enter your Twitter widget ID."
 msgstr ""
 
 #: public/includes/class-cherry-twitter-timeline-widget.php:245

@@ -730,7 +730,7 @@ if ( !class_exists( 'Cherry_Social' ) ) {
 			$social_options['follow-title'] = array(
 				'type'        => 'text',
 				'title'       => __( 'Follow Us title', 'cherry-social' ),
-				'decsription' => __( 'This title are using in `Follow Us` static.', 'cherry-social' ),
+				'decsription' => __( 'This title is used in `Follow Us` static.', 'cherry-social' ),
 				'value'       => __( 'Follow Us', 'cherry-social' ),
 			);
 			$social_options['follow-items'] = array(

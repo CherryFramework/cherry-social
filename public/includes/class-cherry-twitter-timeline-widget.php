@@ -84,7 +84,7 @@ if ( !class_exists( 'Cherry_Twitter_Timeline' ) ) {
 			extract( $args, EXTR_SKIP );
 
 			if ( empty( $instance['widget_ID'] ) ) {
-				return print $before_widget . __( 'Please, enter ID of your Twitter widget.' ) . $after_widget;
+				return print $before_widget . __( 'Please, enter your Twitter widget ID.' ) . $after_widget;
 			}
 
 			$output = $before_widget;

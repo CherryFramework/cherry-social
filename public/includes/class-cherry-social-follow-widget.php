@@ -93,7 +93,7 @@ class Cherry_Social_Follow extends WP_Widget {
 		extract( $args, EXTR_SKIP );
 
 		if ( !is_array( $this->follow_items ) || empty( $this->follow_items ) ) {
-			return print $before_widget . __( 'Sorry, but networks not found.', 'cherry-social' ) . $after_widget;
+			return print $before_widget . __( 'Sorry, but networks are not found.', 'cherry-social' ) . $after_widget;
 		}
 
 		$output = $before_widget;

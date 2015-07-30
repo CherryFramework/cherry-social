@@ -32,12 +32,12 @@ do_action( 'cherry_facebook_like_box_widget_form_before' );
 <!-- Widget Cover: Checkbox -->
 <p>
 	<input id="<?php echo $this->get_field_id( 'cover' ); ?>" name="<?php echo $this->get_field_name( 'cover' ); ?>" type="checkbox" <?php checked( $cover ); ?>>
-	<label for="<?php echo $this->get_field_id( 'cover' ); ?>"><?php _e( 'Hide cover photo in the header', 'cherry-social' ); ?></label>
+	<label for="<?php echo $this->get_field_id( 'cover' ); ?>"><?php _e( 'Hide cover photo in header', 'cherry-social' ); ?></label>
 </p>
 <!-- Widget Header: Checkbox -->
 <p>
 	<input id="<?php echo $this->get_field_id( 'header' ); ?>" name="<?php echo $this->get_field_name( 'header' ); ?>" type="checkbox" <?php checked( $header ); ?>>
-	<label for="<?php echo $this->get_field_id( 'header' ); ?>"><?php _e( 'Use the small header instead', 'cherry-social' ); ?></label>
+	<label for="<?php echo $this->get_field_id( 'header' ); ?>"><?php _e( 'Use small header instead', 'cherry-social' ); ?></label>
 </p>
 <!-- Widget Faces: Checkbox -->
 <p>

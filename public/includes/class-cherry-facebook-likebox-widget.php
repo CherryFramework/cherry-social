@@ -80,7 +80,7 @@ if ( !class_exists( 'Cherry_Facebook_Like_Box' ) ) {
 			extract( $args, EXTR_SKIP );
 
 			if ( empty( $instance['page_url'] ) ) {
-				return print $before_widget . __( 'Please, enter URL to the your facebook page.' ) . $after_widget;
+				return print $before_widget . __( 'Please, enter the URL of your facebook page.' ) . $after_widget;
 			}
 
 			$output = $before_widget;
