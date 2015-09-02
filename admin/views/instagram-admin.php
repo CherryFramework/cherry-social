@@ -43,7 +43,7 @@ do_action( 'cherry_instagram_widget_form_before' );
 	<label for="<?php echo $this->get_field_id( 'client_id' ); ?>"><?php _e( 'Client ID:', 'cherry-social' ); ?></label>
 	<input type="text" name="<?php echo $this->get_field_name( 'client_id' ); ?>" value="<?php echo $client_id; ?>" class="widefat" id="<?php echo $this->get_field_id( 'client_id' ); ?>" /><br>
 	<?php $_link = sprintf( __( "<a href='%s' target='_blank'>link</a>", 'cherry-social' ), esc_url( 'https://instagram.com/developer/clients/manage/' ) ); ?>
-	<small><?php printf( __( "Follow this %s and create the application. After that you will get your applications data where you will see the CLIENT ID.", 'cherry-social' ), $_link ); ?></small>
+	<small><?php printf( __( "Follow this %s and create the application. After that you will get your application data where you will see the CLIENT ID.", 'cherry-social' ), $_link ); ?></small>
 </p>
 <!-- Widget Images count: Text Input -->
 <p>

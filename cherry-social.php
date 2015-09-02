@@ -3,12 +3,12 @@
  * Plugin Name: Cherry Social
  * Plugin URI:  http://www.cherryframework.com/
  * Description: A social plugin for WordPress.
- * Version:     1.0.1
+ * Version:     1.0.2-beta
  * Author:      Cherry Team
  * Author URI:  http://www.cherryframework.com/
  * Text Domain: cherry-social
- * License:     GPL-2.0+
- * License URI: http://www.gnu.org/licenses/gpl-2.0.txt
+ * License:     GPL-3.0+
+ * License URI: http://www.gnu.org/licenses/gpl-3.0.txt
  * Domain Path: /languages
  */
 
@@ -102,7 +102,7 @@ if ( !class_exists( 'Cherry_Social' ) ) {
 		 * @since 1.0.0
 		 */
 		public function constants() {
-			define( 'CHERRY_SOCIAL_VERSION', '1.0.1' );
+			define( 'CHERRY_SOCIAL_VERSION', '1.0.2-beta' );
 			define( 'CHERRY_SOCIAL_SLUG',    basename( dirname( __FILE__ ) ) );
 			define( 'CHERRY_SOCIAL_DIR',     trailingslashit( plugin_dir_path( __FILE__ ) ) );
 			define( 'CHERRY_SOCIAL_URI',     trailingslashit( plugin_dir_url( __FILE__ ) ) );
@@ -426,13 +426,7 @@ if ( !class_exists( 'Cherry_Social' ) ) {
 		public function register_static() {
 			$static_file = apply_filters( 'cherry_social_static_file', 'social-follow.php' );
 
-			if ( defined( 'CHILD_DIR' ) ) {
-				$child_dir = CHILD_DIR;
-			} else {
-				$child_dir = get_stylesheet_directory();
-			}
-
-			$abspath = preg_replace( '#/+#', '/', trailingslashit( $child_dir ) . $static_file );
+			$abspath = preg_replace( '#/+#', '/', trailingslashit( get_stylesheet_directory() ) . $static_file );
 
 			// If file found in child theme - include it and break function.
 			if ( file_exists( $abspath ) ) {
@@ -477,9 +471,9 @@ if ( !class_exists( 'Cherry_Social' ) ) {
 			if ( -1 != $networks ) {
 				foreach ( $follows as $id => $follow ) {
 
-					if ( ! empty( $follow['link-label'] )
-						&& ( in_array( sanitize_key( $follow['link-label'] ), $networks ) )
-					) {
+					if ( ( ! empty( $follow['link-label'] ) && ( in_array( sanitize_key( $follow['link-label'] ), $networks ) ) )
+						||
+						( ! empty( $follow['network-id'] ) && ( in_array( sanitize_key( $follow['network-id'] ), $networks ) ) ) ) {
 						continue;
 					}
 
@@ -730,7 +724,7 @@ if ( !class_exists( 'Cherry_Social' ) ) {
 			$social_options['follow-title'] = array(
 				'type'        => 'text',
 				'title'       => __( 'Follow Us title', 'cherry-social' ),
-				'decsription' => __( 'This title are using in `Follow Us` static.', 'cherry-social' ),
+				'decsription' => __( 'This title is used in `Follow Us` static.', 'cherry-social' ),
 				'value'       => __( 'Follow Us', 'cherry-social' ),
 			);
 			$social_options['follow-items'] = array(
