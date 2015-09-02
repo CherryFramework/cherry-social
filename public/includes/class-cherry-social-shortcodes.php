@@ -203,7 +203,13 @@ if ( !class_exists( 'Cherry_Social_Shortcodes' ) ) {
 				if ( empty( $follow['link-label'] ) ) {
 					continue;
 				}
-				$follow_values[ sanitize_key( $follow['link-label'] ) ] = $follow['link-label'];
+
+				if ( empty( $follow['network-id'] ) ) {
+					$follow_values[ sanitize_key( $follow['link-label'] ) ] = $follow['link-label'];
+				} else {
+					$follow_values[ sanitize_key( $follow['network-id'] ) ] = $follow['link-label'];
+				}
+
 			}
 
 			$shortcodes[ 'follow' ] = array(

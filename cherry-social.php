@@ -426,13 +426,7 @@ if ( !class_exists( 'Cherry_Social' ) ) {
 		public function register_static() {
 			$static_file = apply_filters( 'cherry_social_static_file', 'social-follow.php' );
 
-			if ( defined( 'CHILD_DIR' ) ) {
-				$child_dir = CHILD_DIR;
-			} else {
-				$child_dir = get_stylesheet_directory();
-			}
-
-			$abspath = preg_replace( '#/+#', '/', trailingslashit( $child_dir ) . $static_file );
+			$abspath = preg_replace( '#/+#', '/', trailingslashit( get_stylesheet_directory() ) . $static_file );
 
 			// If file found in child theme - include it and break function.
 			if ( file_exists( $abspath ) ) {
@@ -477,9 +471,9 @@ if ( !class_exists( 'Cherry_Social' ) ) {
 			if ( -1 != $networks ) {
 				foreach ( $follows as $id => $follow ) {
 
-					if ( ! empty( $follow['link-label'] )
-						&& ( in_array( sanitize_key( $follow['link-label'] ), $networks ) )
-					) {
+					if ( ( ! empty( $follow['link-label'] ) && ( in_array( sanitize_key( $follow['link-label'] ), $networks ) ) )
+						||
+						( ! empty( $follow['network-id'] ) && ( in_array( sanitize_key( $follow['network-id'] ), $networks ) ) ) ) {
 						continue;
 					}
 
