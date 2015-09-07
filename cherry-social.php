@@ -291,7 +291,7 @@ if ( !class_exists( 'Cherry_Social' ) ) {
 		 */
 		public function build_html_item( $url, $data ) {
 
-			$output = sprintf( '<li class="cherry-share_item %2$s_item"><a class="cherry-share_link" href="%1$s" rel="nofollow" target="_blank" rel="nofollow" title="%3$s"><i class="%4$s"></i><span class="cherry-share_label">%5$s</span></a></li>',
+			$output = sprintf( '<li class="cherry-share_item %2$s-item"><a class="cherry-share_link" href="%1$s" rel="nofollow" target="_blank" rel="nofollow" title="%3$s"><i class="%4$s"></i><span class="cherry-share_label">%5$s</span></a></li>',
 				htmlspecialchars( $url ),
 				sanitize_html_class( $data['id'] ),
 				esc_html__( 'Share on ' . $data['name'], 'cherry-social' ),
@@ -505,7 +505,18 @@ if ( !class_exists( 'Cherry_Social' ) ) {
 						$icon         = "<i class='{$icon_class}'></i>";
 					}
 
-					$output .= "<li class='cherry-follow_item {$item_class}'><a class='cherry-follow_link' href='{$url}' target='_blank' rel='nofollow' title='{$label}'>{$icon}<span class='cherry-follow_label'>{$label}</span></a></li>";
+					$format = '<li class="cherry-follow_item %1$s"><a class="cherry-follow_link" href="%2$s" target="_blank" rel="nofollow" title="%3$s">%4$s<span class="cherry-follow_label">%3$s</span></a></li>';
+
+					/**
+					 * Filters a html-formatted string for outputing a `follow` item.
+					 *
+					 * @since 1.0.3
+					 */
+					$format = apply_filters( 'cherry_social_get_follows_item_format', $format, $item_class, $url, $label, $icon_class );
+
+					$item = sprintf( $format, $item_class, $url, $label, $icon );
+
+					$output .= $item;
 				}
 
 				$output .= '</ul>';
