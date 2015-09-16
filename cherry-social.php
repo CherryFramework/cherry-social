@@ -166,7 +166,7 @@ if ( !class_exists( 'Cherry_Social' ) ) {
 		public function enqueue_styles() {
 			wp_register_style(
 				$this->plugin_slug . '-flaticon',
-				plugins_url( 'public/assets/fonts/flaticon.css', __FILE__ ),
+				plugins_url( 'public/assets/fonts/flaticon.min.css', __FILE__ ),
 				array(),
 				CHERRY_SOCIAL_VERSION
 			);
