@@ -3,7 +3,7 @@
  * Plugin Name: Cherry Social
  * Plugin URI:  http://www.cherryframework.com/
  * Description: A social plugin for WordPress.
- * Version:     1.0.2
+ * Version:     1.0.3-beta
  * Author:      Cherry Team
  * Author URI:  http://www.cherryframework.com/
  * Text Domain: cherry-social
@@ -102,7 +102,7 @@ if ( !class_exists( 'Cherry_Social' ) ) {
 		 * @since 1.0.0
 		 */
 		public function constants() {
-			define( 'CHERRY_SOCIAL_VERSION', '1.0.2' );
+			define( 'CHERRY_SOCIAL_VERSION', '1.0.3-beta' );
 			define( 'CHERRY_SOCIAL_SLUG',    basename( dirname( __FILE__ ) ) );
 			define( 'CHERRY_SOCIAL_DIR',     trailingslashit( plugin_dir_path( __FILE__ ) ) );
 			define( 'CHERRY_SOCIAL_URI',     trailingslashit( plugin_dir_url( __FILE__ ) ) );
@@ -166,7 +166,7 @@ if ( !class_exists( 'Cherry_Social' ) ) {
 		public function enqueue_styles() {
 			wp_register_style(
 				$this->plugin_slug . '-flaticon',
-				plugins_url( 'public/assets/fonts/flaticon.css', __FILE__ ),
+				plugins_url( 'public/assets/fonts/flaticon.min.css', __FILE__ ),
 				array(),
 				CHERRY_SOCIAL_VERSION
 			);
@@ -505,7 +505,18 @@ if ( !class_exists( 'Cherry_Social' ) ) {
 						$icon         = "<i class='{$icon_class}'></i>";
 					}
 
-					$output .= "<li class='cherry-follow_item {$item_class}'><a class='cherry-follow_link' href='{$url}' target='_blank' rel='nofollow' title='{$label}'>{$icon}<span class='cherry-follow_label'>{$label}</span></a></li>";
+					$format = '<li class="cherry-follow_item %1$s"><a class="cherry-follow_link" href="%2$s" target="_blank" rel="nofollow" title="%3$s">%4$s<span class="cherry-follow_label">%3$s</span></a></li>';
+
+					/**
+					 * Filters a html-formatted string for outputing a `follow` item.
+					 *
+					 * @since 1.0.3
+					 */
+					$format = apply_filters( 'cherry_social_get_follows_item_format', $format, $item_class, $url, $label, $icon_class );
+
+					$item = sprintf( $format, $item_class, $url, $label, $icon );
+
+					$output .= $item;
 				}
 
 				$output .= '</ul>';
