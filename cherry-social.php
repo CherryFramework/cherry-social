@@ -295,7 +295,7 @@ if ( !class_exists( 'Cherry_Social' ) ) {
 				htmlspecialchars( $url ),
 				sanitize_html_class( $data['id'] ),
 				esc_html__( 'Share on ' . $data['name'], 'cherry-social' ),
-				sanitize_html_class( $this->get_icon_class_prefix() . $data['id'] ),
+				esc_attr( $this->get_icon_class_prefix() . $data['id'] ),
 				esc_attr( $data['name'] )
 			);
 
