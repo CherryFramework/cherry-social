@@ -1,9 +1,3 @@
-<?php
-// If this file is called directly, abort.
-if ( ! defined( 'WPINC' ) ) {
-	die;
-} ?>
-
 <a class="twitter-timeline"
 	data-widget-id="<?php echo $widget_ID; ?>"
 	data-theme="<?php echo $skin; ?>"

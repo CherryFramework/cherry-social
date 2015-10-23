@@ -10,6 +10,11 @@
  * License:     GPL-3.0+
  * License URI: http://www.gnu.org/licenses/gpl-3.0.txt
  * Domain Path: /languages
+ *
+ * @package  Cherry Social
+ * @category Core
+ * @author   Cherry Team
+ * @license  GPL-3.0+
  */
 
 // If this file is called directly, abort.
@@ -18,7 +23,7 @@ if ( ! defined( 'WPINC' ) ) {
 }
 
 // If class `Cherry_Social` not exists.
-if ( !class_exists( 'Cherry_Social' ) ) {
+if ( ! class_exists( 'Cherry_Social' ) ) {
 
 	/**
 	 * Sets up and initializes the Cherry Social plugin.
@@ -80,19 +85,15 @@ if ( !class_exists( 'Cherry_Social' ) ) {
 
 			add_action( 'init', array( $this, 'register_static' ), 11 );
 
-			// add_filter( 'the_excerpt', array( $this, 'share' ), 11 );
-			// add_filter( 'the_content', array( $this, 'share' ), 11 );
-
 			add_filter( 'cherry_pre_get_the_post_share', array( $this, 'share' ), 10, 2 );
 			add_filter( 'cherry_defaults_settings',      array( $this, 'add_cherry_options' ), 11 );
 
 			// Load public-facing style sheet and JavaScript.
 			add_action( 'wp_enqueue_scripts',         array( $this, 'enqueue_styles' ) );
 			add_filter( 'cherry_compiler_static_css', array( $this, 'add_style_to_compiler' ) );
-			// add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 
 			// Register activation and deactivation hook.
-			register_activation_hook( __FILE__, array( $this, 'activation'     ) );
+			register_activation_hook( __FILE__, array( $this, 'activation' ) );
 			register_deactivation_hook( __FILE__, array( $this, 'deactivation' ) );
 		}
 
@@ -120,7 +121,7 @@ if ( !class_exists( 'Cherry_Social' ) ) {
 			$locale = apply_filters( 'plugin_locale', get_locale(), $domain );
 
 			load_textdomain( $domain, trailingslashit( WP_LANG_DIR ) . $domain . '/' . $domain . '-' . $locale . '.mo' );
-			load_plugin_textdomain( $domain, FALSE, basename( plugin_dir_path( dirname( __FILE__ ) ) ) . '/languages/' );
+			load_plugin_textdomain( $domain, false, basename( plugin_dir_path( dirname( __FILE__ ) ) ) . '/languages/' );
 		}
 
 		/**
@@ -184,8 +185,8 @@ if ( !class_exists( 'Cherry_Social' ) ) {
 		 * Pass style handle to CSS compiler.
 		 *
 		 * @since 1.0.0
-		 *
 		 * @param array $handles CSS handles to compile.
+		 * @return array
 		 */
 		function add_style_to_compiler( $handles ) {
 			$handles = array_merge(
@@ -227,7 +228,7 @@ if ( !class_exists( 'Cherry_Social' ) ) {
 		 * Retrieve a title for sharing.
 		 *
 		 * @since  1.0.0
-		 * @param  int    $post_id Post ID.
+		 * @param  int $post_id Post ID.
 		 * @return string
 		 */
 		public function get_share_title( $post_id ) {
@@ -261,15 +262,15 @@ if ( !class_exists( 'Cherry_Social' ) ) {
 		 * Replace a macros on the real data.
 		 *
 		 * @since  1.0.0
-		 * @param  array $query
-		 * @param  array $post_data
+		 * @param  array $query     Set of query.
+		 * @param  array $post_data Set of post data.
 		 * @return array
 		 */
 		public function prepare_query( $query, $post_data ) {
 
 			foreach ( $query as $k => $v ) {
 
-				if ( false === strpos( $v, '@@') ) {
+				if ( false === strpos( $v, '@@' ) ) {
 					continue;
 				} else {
 					$_v = strtolower( trim( $v, '@@' ) );
@@ -285,7 +286,7 @@ if ( !class_exists( 'Cherry_Social' ) ) {
 		 * Retrieve a html-formatted share item.
 		 *
 		 * @since  1.0.0
-		 * @param  string $url
+		 * @param  string $url  Social URL.
 		 * @param  array  $data Share data.
 		 * @return string
 		 */
@@ -306,16 +307,15 @@ if ( !class_exists( 'Cherry_Social' ) ) {
 		 * Before outputing a share buttons check options.
 		 *
 		 * @since  1.0.0
+		 * @param  string $pre  [description]
+		 * @param  array  $attr [description]
+		 * @return string
 		 */
 		public function share( $pre, $attr ) {
 
-			// if ( 'true' != $this->get_option( 'social-sharing') ) {
-			// 	return $pre;
-			// }
-
 			if ( ! empty( $attr['where'] ) ) {
 				if ( ( ( 'loop' === $attr['where'] ) && is_singular() )
-					|| ( ( 'single' === $attr['where'] ) && !is_singular() )
+					|| ( ( 'single' === $attr['where'] ) && ! is_singular() )
 					) {
 					return '';
 				}
@@ -336,14 +336,12 @@ if ( !class_exists( 'Cherry_Social' ) ) {
 		 * Output or retrieve a share buttons in the list-style.
 		 *
 		 * @since  1.0.0
-		 * @param  bool   $echo
+		 * @param  array   $networks     Set of social networks.
+		 * @param  boolean $echo         Echo or return.
+		 * @param  string  $custom_class Extra CSS-class.
 		 * @return string
 		 */
 		public function share_buttons( $networks, $echo = true, $custom_class = '' ) {
-			// if ( empty( $networks ) ) {
-			// 	return;
-			// }
-
 			$share_btns = $this->get_the_share_btns();
 
 			if ( empty( $share_btns ) ) {
@@ -355,24 +353,21 @@ if ( !class_exists( 'Cherry_Social' ) ) {
 			$type         = get_post_type( $id );
 			$url          = $this->get_share_url( $id );
 			$title        = $this->get_share_title( $id );
-			// $title        = get_the_title( $id );
 			$summary      = get_the_excerpt();
 			$thumbnail_id = get_post_thumbnail_id( $id );
 			$thumbnail    = '';
 
-			if ( !empty( $thumbnail_id ) ) {
+			if ( ! empty( $thumbnail_id ) ) {
 				$thumbnail = wp_get_attachment_image_src( $thumbnail_id );
 				$thumbnail = $thumbnail[0];
 			}
 
 			$post_data     = compact( 'id', 'type', 'url', 'title', 'summary', 'thumbnail' );
-			// $count         = ++self::$share_group_counter;
-			// $custom_class  = sanitize_html_class( $custom_class );
 			$share_buttons = '';
 
 			foreach ( (array) $networks as $network ) :
 
-					if ( !empty( $share_btns[ $network ]['callback'] )
+					if ( ! empty( $share_btns[ $network ]['callback'] )
 						&& is_callable( $share_btns[ $network ]['callback'] )
 						) {
 						$_url = call_user_func( $share_btns[ $network ]['callback'], $post_data );
@@ -423,6 +418,12 @@ if ( !class_exists( 'Cherry_Social' ) ) {
 			}
 		}
 
+		/**
+		 * Static registration.
+		 *
+		 * @since  1.0.0
+		 * @return string
+		 */
 		public function register_static() {
 			$static_file = apply_filters( 'cherry_social_static_file', 'social-follow.php' );
 
@@ -434,14 +435,7 @@ if ( !class_exists( 'Cherry_Social' ) ) {
 				return;
 			}
 
-			// If file was not found in child theme - search it in parent.
-			if ( defined( 'PARENT_DIR' ) ) {
-				$parent_dir = PARENT_DIR;
-			} else {
-				$parent_dir = get_template_directory();
-			}
-
-			$abspath = preg_replace( '#/+#', '/', trailingslashit( $parent_dir ) . $static_file );
+			$abspath = preg_replace( '#/+#', '/', trailingslashit( get_template_directory() ) . $static_file );
 
 			if ( file_exists( $abspath ) ) {
 				require_once $abspath;
@@ -498,7 +492,7 @@ if ( !class_exists( 'Cherry_Social' ) ) {
 					$icon       = '';
 					$icon_class = $follow['font-class'];
 
-					if ( !empty( $icon_class ) ) {
+					if ( ! empty( $icon_class ) ) {
 						$icon_classes = explode( ' ', $icon_class );
 						$icon_classes = array_map( 'sanitize_html_class', $icon_classes );
 						$icon_class   = join( ' ', $icon_classes );
@@ -622,7 +616,6 @@ if ( !class_exists( 'Cherry_Social' ) ) {
 				'pinterest' => array(
 					'id'        => 'pinterest',
 					'name'      => 'Pinterest',
-					// 'share_url' => 'https://www.pinterest.com/pin/create/button/?url=@@URL@@&description=@@TITLE@@&media=@@thumbnail@@',
 					'share_url' => 'https://www.pinterest.com/pin/create/button/?url=@@URL@@&description=@@TITLE@@',
 				),
 				'linkedin' => array(
@@ -646,16 +639,6 @@ if ( !class_exists( 'Cherry_Social' ) ) {
 					'name'      => 'Reddit',
 					'share_url' => 'http://www.reddit.com/submit?url=@@URL&title=@@TITLE@@',
 				),
-				// 'pocket' => array(
-				// 	'id'        => 'pocket',
-				// 	'name'      => 'Pocket',
-				// 	'share_url' => 'https://getpocket.com/save?url=@@URL@@&title=@@TITLE@@@',
-				// ),
-				// 'bufferapp' => array(
-				// 	'id'        => 'bufferapp',
-				// 	'name'      => 'BufferApp',
-				// 	'share_url' => 'https://bufferapp.com/add?url=@@URL@@&text=@@TITLE@@',
-				// ),
 			);
 
 			return apply_filters( 'cherry_social_share_btns', $share_btns );
@@ -665,7 +648,7 @@ if ( !class_exists( 'Cherry_Social' ) ) {
 		 * Adds `Social settings` tab with options.
 		 *
 		 * @since 1.0.0
-		 * @param array $sections
+		 * @param array $sections Set of layout options.
 		 */
 		public function add_cherry_options( $sections ) {
 			$social_options = array();
@@ -676,60 +659,16 @@ if ( !class_exists( 'Cherry_Social' ) ) {
 			$items_options = wp_list_pluck( $share_btns, 'name' );
 
 			$social_options['share-items'] = array(
-				'type'			=> 'checkbox',
-				'title'			=> __( 'Sharing networks', 'cherry-social' ),
-				'decsription'	=> __( 'Select the social networks to display for sharing', 'cherry-social' ),
-				'hint'			=> array(
-					'type'		=> 'text',
-					'content'	=> __( 'Type a macros', 'cherry-social' ) . '<code>%%SHARE%%</code> in *.tmpl file. <br><small>e.g. /my-theme/content/standard.tmpl</small>.',
+				'type'        => 'checkbox',
+				'title'       => __( 'Sharing networks', 'cherry-social' ),
+				'decsription' => __( 'Select the social networks to display for sharing', 'cherry-social' ),
+				'hint'        => array(
+					'type'    => 'text',
+					'content' => __( 'Type a macros', 'cherry-social' ) . '<code>%%SHARE%%</code> in *.tmpl file. <br><small>e.g. /my-theme/content/standard.tmpl</small>.',
 				),
-				'value'			=> $items_value,
-				'options'		=> $items_options,
+				'value'   => $items_value,
+				'options' => $items_options,
 			);
-
-			// $shows_options = get_post_types( array( 'public' => true ) );
-			// $shows_options = array_merge( array(
-			// 	'home'  => 'home',
-			// 	'index' => 'index',
-			// ), $shows_options );
-			// $shows_value = array_fill_keys( $shows_options, true );
-
-			// foreach ( $shows_options as $id => $show ) :
-
-			// 	if ( 'home' == $id ) {
-			// 		$shows_options[ $id ] = __( 'Home Page', 'cherry-social' );
-			// 		continue;
-			// 	}
-
-			// 	if ( 'index' == $id ) {
-			// 		$shows_options[ $id ] = __( 'Blog Page, Archive Pages, and Search Results', 'cherry-social' );
-			// 		continue;
-			// 	}
-
-			// 	$post_type_object     = get_post_type_object( $show );
-			// 	$shows_options[ $id ] = $post_type_object->labels->name;
-
-			// endforeach;
-
-			// $share_options['share-shows'] = array(
-			// 	'type'        => 'multicheckbox',
-			// 	'title'       => __( 'Show buttons on', 'cherry-social' ),
-			// 	'decsription' => __( 'decsription', 'cherry-social' ),
-			// 	'value'       => $shows_value,
-			// 	'options'     => $shows_options,
-			// );
-
-			// $share_options['share-position'] = array(
-			// 	'type'        => 'select',
-			// 	'title'       => __( 'Position', 'cherry-social' ),
-			// 	'decsription' => __( 'Choose where you would like the share buttons to appear, before or after the main content.', 'cherry-social' ),
-			// 	'value'       => 'bottom',
-			// 	'options'     => array(
-			// 		'top'    => __( 'Top', 'cherry-social' ),
-			// 		'bottom' => __( 'Bottom', 'cherry-social' ),
-			// 		'both'   => __( 'Top and Bottom', 'cherry-social' ),
-			// 	)
-			// );
 
 			// Follow Us.
 			$social_options['follow-title'] = array(
@@ -758,7 +697,7 @@ if ( !class_exists( 'Cherry_Social' ) ) {
 						'font-class'    => 'flaticon-googleplus',
 						'link-label'    => __( 'Google+', 'cherry-social' ),
 					),
-				)
+				),
 			);
 
 			$sections['social-section'] = array(
@@ -767,20 +706,6 @@ if ( !class_exists( 'Cherry_Social' ) ) {
 				'priority'     => 120,
 				'options-list' => $social_options,
 			);
-
-			// $sections['social-share-subsection'] = array(
-			// 	'name'         => __( 'Sharing', 'cherry-social' ),
-			// 	'icon'         => 'dashicons dashicons-arrow-right',
-			// 	'parent'       => 'social-section',
-			// 	'options-list' => $share_options,
-			// );
-
-			// $sections['social-follow-subsection'] = array(
-			// 	'name'         => __( 'Follow', 'cherry-social' ),
-			// 	'icon'         => 'dashicons dashicons-arrow-right',
-			// 	'parent'       => 'social-section',
-			// 	'options-list' => $follow_options,
-			// );
 
 			return $sections;
 		}

@@ -1,9 +1,4 @@
 <?php
-// If this file is called directly, abort.
-if ( ! defined( 'ABSPATH' ) ) {
-	die;
-}
-
 /**
  * Fires before a widget form.
  *
@@ -22,7 +17,7 @@ do_action( 'cherry_facebook_like_box_widget_form_before' );
 	<label for="<?php echo $this->get_field_id( 'page_url' ); ?>"><?php _e( 'Page URL:', 'cherry-social' ); ?></label>
 	<input type="text" name="<?php echo $this->get_field_name( 'page_url' ); ?>" value="<?php echo $page_url; ?>" class="widefat" id="<?php echo $this->get_field_id( 'page_url' ); ?>" />
 	<?php $link = sprintf( "<a href='%s' target='_blank'>Facebook Pages</a>", esc_url( 'https://www.facebook.com/help/174987089221178/' ) ); ?>
-	<small><?php printf( __( "The Like Box only works with %s.", 'cherry-social' ), $link ); ?></small>
+	<small><?php printf( __( 'The Like Box only works with %s.', 'cherry-social' ), $link ); ?></small>
 </p>
 <!-- Widget Height: Text Input -->
 <p>
@@ -56,4 +51,3 @@ do_action( 'cherry_facebook_like_box_widget_form_before' );
  * @since 1.0.0
  */
 do_action( 'cherry_facebook_like_box_widget_form_after' );
-?>

@@ -9,6 +9,11 @@
  * @copyright 2015 Cherry Team
  */
 
+/**
+ * Class for Social admin functionality.
+ *
+ * @since 1.0.0
+ */
 class Cherry_Social_Admin {
 
 	/**
@@ -37,10 +42,6 @@ class Cherry_Social_Admin {
 		$plugin = Cherry_Social::get_instance();
 		$this->plugin_slug = $plugin->get_plugin_slug();
 
-		// Load admin stylesheet and JavaScript.
-		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_admin_styles' ) );
-		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_admin_scripts' ) );
-
 		// Add the options page and menu item.
 		add_action( 'admin_menu', array( $this, 'add_plugin_admin_menu' ) );
 
@@ -64,42 +65,6 @@ class Cherry_Social_Admin {
 		}
 
 		return self::$instance;
-	}
-
-	/**
-	 * Register and enqueue admin-specific stylesheet.
-	 *
-	 * @since  1.0.0
-	 */
-	public function enqueue_admin_styles() {
-
-		if ( ! isset( $this->plugin_screen_hook_suffix ) ) {
-			return;
-		}
-
-		$screen = get_current_screen();
-		if ( $this->plugin_screen_hook_suffix == $screen->id ) {
-			wp_enqueue_style( $this->plugin_slug .'-admin-styles', plugins_url( 'assets/css/admin.css', __FILE__ ), array(), Cherry_Social::VERSION );
-		}
-
-	}
-
-	/**
-	 * Register and enqueue admin-specific JavaScri
-	 *
-	 * @since  1.0.0
-	 */
-	public function enqueue_admin_scripts() {
-
-		if ( ! isset( $this->plugin_screen_hook_suffix ) ) {
-			return;
-		}
-
-		$screen = get_current_screen();
-		if ( $this->plugin_screen_hook_suffix == $screen->id ) {
-			wp_enqueue_script( $this->plugin_slug . '-admin-script', plugins_url( 'assets/js/admin.js', __FILE__ ), array( 'jquery' ), Cherry_Social::VERSION );
-		}
-
 	}
 
 	/**
@@ -140,11 +105,10 @@ class Cherry_Social_Admin {
 
 		return array_merge(
 			array(
-				'settings' => '<a href="' . admin_url( 'options-general.php?page=' . $this->plugin_slug ) . '">' . __( 'Settings', $this->plugin_slug ) . '</a>'
+				'settings' => '<a href="' . admin_url( 'options-general.php?page=' . $this->plugin_slug ) . '">' . __( 'Settings', $this->plugin_slug ) . '</a>',
 			),
 			$links
 		);
-
 	}
 
 }

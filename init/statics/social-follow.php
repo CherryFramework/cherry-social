@@ -1,4 +1,14 @@
 <?php
+/**
+ * Sets up a `Social Follow` static functionality.
+ *
+ * @package   Cherry_Social
+ * @author    Cherry Team
+ * @license   GPL-2.0+
+ * @link      http://www.cherryframework.com/
+ * @copyright 2015 Cherry Team
+ */
+
 // If this file is called directly, abort.
 if ( ! defined( 'WPINC' ) ) {
 	die;
@@ -8,6 +18,11 @@ if ( ! class_exists( 'cherry_register_static' ) ) {
 	return;
 }
 
+/**
+ * Declare a `Social Follow` static php-class.
+ *
+ * @since 1.0.0
+ */
 class cherry_social_follow_static extends cherry_register_static {
 
 	/**
@@ -19,7 +34,7 @@ class cherry_social_follow_static extends cherry_register_static {
 		$plugin = Cherry_Social::get_instance();
 		$title  = $plugin->get_option( 'follow-title' );
 
-		if ( !empty( $title ) ) {
+		if ( ! empty( $title ) ) {
 			$title_wrap = sprintf( '<h3 class="%1$s">%2$s</h3>', 'cherry-follow_title', $title );
 			$title_wrap = apply_filters( 'cherry_social_follow_static_title', $title_wrap );
 			echo $title_wrap;
@@ -40,5 +55,6 @@ new cherry_social_follow_static( array(
 		'position' => 1, // (optional) Position in static area (1 - first static, 2 - second static, etc.)
 		'area'     => 'static-area-id', // (required) ID for static area
 		'collapse' => false, // (required) Collapse column paddings?
-	) )
+		)
+	),
 );
