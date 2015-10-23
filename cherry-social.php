@@ -241,7 +241,7 @@ if ( ! class_exists( 'Cherry_Social' ) ) {
 		 * Retrieve a url for sharing.
 		 *
 		 * @since  1.0.0
-		 * @param  int    $post_id Post ID.
+		 * @param  int $post_id Post ID.
 		 * @return string
 		 */
 		public function get_share_url( $post_id ) {
@@ -307,8 +307,8 @@ if ( ! class_exists( 'Cherry_Social' ) ) {
 		 * Before outputing a share buttons check options.
 		 *
 		 * @since  1.0.0
-		 * @param  string $pre  [description]
-		 * @param  array  $attr [description]
+		 * @param  string $pre  Pre-content.
+		 * @param  array  $attr Set of attributes.
 		 * @return string
 		 */
 		public function share( $pre, $attr ) {

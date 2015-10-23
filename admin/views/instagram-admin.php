@@ -2,7 +2,8 @@
 /**
  * Fires before a widget form.
  *
- * @since 1.0.0
+ * @package Cherry_Testimonials_Admin
+ * @since   1.0.0
  */
 do_action( 'cherry_instagram_widget_form_before' );
 ?>

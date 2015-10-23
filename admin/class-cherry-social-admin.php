@@ -73,7 +73,6 @@ class Cherry_Social_Admin {
 	 * @since 1.0.0
 	 */
 	public function add_plugin_admin_menu() {
-
 		/*
 		 * Add a settings page for this plugin to the Settings menu.
 		 */
@@ -110,7 +109,6 @@ class Cherry_Social_Admin {
 			$links
 		);
 	}
-
 }
 
 Cherry_Social_Admin::get_instance();
