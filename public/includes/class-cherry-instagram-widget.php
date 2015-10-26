@@ -14,6 +14,7 @@ if ( ! defined( 'WPINC' ) ) {
 }
 
 if ( ! class_exists( 'Cherry_Instagram' ) ) {
+
 	/**
 	 * Class for Instagram Widget.
 	 *

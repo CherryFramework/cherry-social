@@ -14,6 +14,7 @@ if ( ! defined( 'WPINC' ) ) {
 }
 
 if ( ! class_exists( 'Cherry_Social_Shortcodes' ) ) {
+
 	/**
 	 * Class for Social shortcode.
 	 *

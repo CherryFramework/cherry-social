@@ -14,6 +14,7 @@ if ( ! defined( 'WPINC' ) ) {
 }
 
 if ( ! class_exists( 'Cherry_Facebook_Like_Box' ) ) {
+
 	/**
 	 * Class for Facebook Like Box Widget.
 	 *

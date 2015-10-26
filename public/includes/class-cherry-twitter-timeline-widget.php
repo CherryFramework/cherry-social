@@ -14,6 +14,7 @@ if ( ! defined( 'WPINC' ) ) {
 }
 
 if ( ! class_exists( 'Cherry_Twitter_Timeline' ) ) {
+
 	/**
 	 * Class for Twitter Timeline Widget.
 	 *
