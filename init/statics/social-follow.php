@@ -4,9 +4,8 @@
  *
  * @package   Cherry_Social
  * @author    Cherry Team
- * @license   GPL-2.0+
- * @link      http://www.cherryframework.com/
- * @copyright 2015 Cherry Team
+ * @license   GPL-3.0+
+ * @copyright 2012 - 2015, Cherry Team
  */
 
 // If this file is called directly, abort.
@@ -44,7 +43,7 @@ class Cherry_Social_Follow_Static extends cherry_register_static {
 	}
 }
 
-new cherry_social_follow_static( array(
+new Cherry_Social_Follow_Static( array(
 	'name'     => __( 'Follow Us', 'cherry-social' ),
 	'id'       => 'social-follow',
 	'options'  => array(
@@ -53,7 +52,7 @@ new cherry_social_follow_static( array(
 		'col-sm'   => 'col-sm-12', // (optional) Column class for a tablets (≥768px)
 		'col-xs'   => 'col-xs-12', // (optional) Column class for a phones (<768px)
 		'position' => 1, // (optional) Position in static area (1 - first static, 2 - second static, etc.)
-		'area'     => 'static-area-id', // (required) ID for static area
+		'area'     => 'available-statics', // (required) ID for static area
 		'collapse' => false, // (required) Collapse column paddings?
 		),
 	)

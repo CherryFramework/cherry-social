@@ -1,3 +1,13 @@
+<?php
+/**
+ * Represents the view for Facebook Like Box Widget.
+ *
+ * @package   Cherry Social
+ * @author    Cherry Team
+ * @license   GPL-3.0+
+ * @copyright 2012 - 2015, Cherry Team
+ */
+?>
 <div id="fb-root"></div>
 <script>(function(d, s, id) {
 	var js, fjs = d.getElementsByTagName(s)[0];

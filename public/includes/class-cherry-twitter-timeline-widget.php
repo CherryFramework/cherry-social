@@ -4,9 +4,8 @@
  *
  * @package   Cherry_Social
  * @author    Cherry Team
- * @license   GPL-2.0+
- * @link      http://www.cherryframework.com/
- * @copyright 2015 Cherry Team
+ * @license   GPL-3.0+
+ * @copyright 2012 - 2015, Cherry Team
  */
 
 // If this file is called directly, abort.
@@ -15,6 +14,11 @@ if ( ! defined( 'WPINC' ) ) {
 }
 
 if ( ! class_exists( 'Cherry_Twitter_Timeline' ) ) {
+	/**
+	 * Class for Twitter Timeline Widget.
+	 *
+	 * @since 1.0.0
+	 */
 	class Cherry_Twitter_Timeline extends WP_Widget {
 
 		/**
@@ -129,7 +133,7 @@ if ( ! class_exists( 'Cherry_Twitter_Timeline' ) ) {
 			if ( ! empty( $instance['nofooter'] ) ) {
 				$chrome[] = 'nofooter';
 			}
-			if ( !empty( $instance['noborders'] ) ) {
+			if ( ! empty( $instance['noborders'] ) ) {
 				$chrome[] = 'noborders';
 			}
 			if ( ! empty( $instance['noscrollbar'] ) ) {

@@ -4,9 +4,8 @@
  *
  * @package   Cherry_Social
  * @author    Cherry Team
- * @license   GPL-2.0+
- * @link      http://www.cherryframework.com/
- * @copyright 2015 Cherry Team
+ * @license   GPL-3.0+
+ * @copyright 2012 - 2015, Cherry Team
  */
 
 // If this file is called directly, abort.

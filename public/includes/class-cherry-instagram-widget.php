@@ -4,9 +4,8 @@
  *
  * @package   Cherry_Social
  * @author    Cherry Team
- * @license   GPL-2.0+
- * @link      http://www.cherryframework.com/
- * @copyright 2015 Cherry Team
+ * @license   GPL-3.0+
+ * @copyright 2012 - 2015, Cherry Team
  */
 
 // If this file is called directly, abort.
@@ -15,6 +14,11 @@ if ( ! defined( 'WPINC' ) ) {
 }
 
 if ( ! class_exists( 'Cherry_Instagram' ) ) {
+	/**
+	 * Class for Instagram Widget.
+	 *
+	 * @since 1.0.0
+	 */
 	class Cherry_Instagram extends WP_Widget {
 
 		/**
@@ -69,11 +73,11 @@ if ( ! class_exists( 'Cherry_Instagram' ) ) {
 			// Check if there is a cached output.
 			$cache = wp_cache_get( $this->get_widget_slug(), 'widget' );
 
-			if ( !is_array( $cache ) ) {
+			if ( ! is_array( $cache ) ) {
 				$cache = array();
 			}
 
-			if ( !isset( $args['widget_id'] ) ) {
+			if ( ! isset( $args['widget_id'] ) ) {
 				$args['widget_id'] = $this->id;
 			}
 

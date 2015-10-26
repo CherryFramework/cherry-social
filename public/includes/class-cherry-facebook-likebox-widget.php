@@ -4,9 +4,8 @@
  *
  * @package   Cherry_Social
  * @author    Cherry Team
- * @license   GPL-2.0+
- * @link      http://www.cherryframework.com/
- * @copyright 2015 Cherry Team
+ * @license   GPL-3.0+
+ * @copyright 2012 - 2015, Cherry Team
  */
 
 // If this file is called directly, abort.
@@ -15,6 +14,11 @@ if ( ! defined( 'WPINC' ) ) {
 }
 
 if ( ! class_exists( 'Cherry_Facebook_Like_Box' ) ) {
+	/**
+	 * Class for Facebook Like Box Widget.
+	 *
+	 * @since 1.0.0
+	 */
 	class Cherry_Facebook_Like_Box extends WP_Widget {
 
 		/**

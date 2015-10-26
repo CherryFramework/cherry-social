@@ -5,9 +5,8 @@
  * @package    Cherry_Base_Update
  * @subpackage Base_Update
  * @author     Cherry Team <support@cherryframework.com>
- * @copyright  Copyright (c) 2012 - 2015, Cherry Team
- * @link       http://www.cherryframework.com/
- * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+ * @copyright  2012 - 2015, Cherry Team
+ * @license    GPL-3.0+
  */
 
 // If this file is called directly, abort.
