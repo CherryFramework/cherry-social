@@ -4,9 +4,8 @@
  *
  * @package   Cherry_Social
  * @author    Cherry Team
- * @license   GPL-2.0+
- * @link      http://www.cherryframework.com/
- * @copyright 2015 Cherry Team
+ * @license   GPL-3.0+
+ * @copyright 2012 - 2015, Cherry Team
  */
 
 // If this file is called directly, abort.
@@ -15,6 +14,12 @@ if ( ! defined( 'WPINC' ) ) {
 }
 
 if ( ! class_exists( 'Cherry_Instagram' ) ) {
+
+	/**
+	 * Class for Instagram Widget.
+	 *
+	 * @since 1.0.0
+	 */
 	class Cherry_Instagram extends WP_Widget {
 
 		/**
@@ -37,7 +42,7 @@ if ( ! class_exists( 'Cherry_Instagram' ) ) {
 				__( 'Cherry Instagram', 'cherry-social' ),
 				array(
 					'classname'   => $this->get_widget_slug() . '_widget',
-					'description' => __( 'A widget for Instagram.', 'cherry-social' )
+					'description' => __( 'A widget for Instagram.', 'cherry-social' ),
 				)
 			);
 
@@ -69,11 +74,11 @@ if ( ! class_exists( 'Cherry_Instagram' ) ) {
 			// Check if there is a cached output.
 			$cache = wp_cache_get( $this->get_widget_slug(), 'widget' );
 
-			if ( !is_array( $cache ) ) {
+			if ( ! is_array( $cache ) ) {
 				$cache = array();
 			}
 
-			if ( !isset( $args['widget_id'] ) ) {
+			if ( ! isset( $args['widget_id'] ) ) {
 				$args['widget_id'] = $this->id;
 			}
 
@@ -84,13 +89,13 @@ if ( ! class_exists( 'Cherry_Instagram' ) ) {
 			extract( $args, EXTR_SKIP );
 
 			$client_id     = esc_attr( $instance['client_id'] );
-			$user_name     = !empty( $instance['user_name'] )     ? strtolower( trim( $instance['user_name'] ) ) : '';
-			$tag           = !empty( $instance['tag'] )           ? esc_attr( $instance['tag'] ) : '';
-			$image_counter = !empty( $instance['image_counter'] ) ? absint( $instance['image_counter'] ) : '';
-			$button_text   = !empty( $instance['button_text'] )   ? esc_attr( $instance['button_text'] ) : '';
+			$user_name     = ! empty( $instance['user_name'] )     ? strtolower( trim( $instance['user_name'] ) ) : '';
+			$tag           = ! empty( $instance['tag'] )           ? esc_attr( $instance['tag'] ) : '';
+			$image_counter = ! empty( $instance['image_counter'] ) ? absint( $instance['image_counter'] ) : '';
+			$button_text   = ! empty( $instance['button_text'] )   ? esc_attr( $instance['button_text'] ) : '';
 
-			$endpoints  = ( !empty( $instance['endpoints'] ) && in_array( $instance['endpoints'], array_keys( $this->get_endpoints_options() ) ) ) ? $instance['endpoints'] : '';
-			$image_size = ( !empty( $instance['image_size'] ) && in_array( $instance['image_size'], array_keys( $this->get_image_size_options() ) ) ) ? $instance['image_size'] : '';
+			$endpoints  = ( ! empty( $instance['endpoints'] ) && in_array( $instance['endpoints'], array_keys( $this->get_endpoints_options() ) ) ) ? $instance['endpoints'] : '';
+			$image_size = ( ! empty( $instance['image_size'] ) && in_array( $instance['image_size'], array_keys( $this->get_image_size_options() ) ) ) ? $instance['image_size'] : '';
 
 			if ( 'hashtag' == $endpoints ) {
 				if ( empty( $tag ) ) {
@@ -114,10 +119,21 @@ if ( ! class_exists( 'Cherry_Instagram' ) ) {
 
 			$config = array();
 
-			if ( ! empty( $instance['link'] ) ) $config[] = 'link';
-			if ( ! empty( $instance['display_time'] ) ) $config[] = 'time';
-			if ( ! empty( $instance['display_description'] ) ) $config[] = 'description';
-			if ( ! empty( $image_size ) ) $config['thumb'] = $image_size;
+			if ( ! empty( $instance['link'] ) ) {
+				$config[] = 'link';
+			}
+
+			if ( ! empty( $instance['display_time'] ) ) {
+				$config[] = 'time';
+			}
+
+			if ( ! empty( $instance['display_description'] ) ) {
+				$config[] = 'description';
+			}
+
+			if ( ! empty( $image_size ) ) {
+				$config['thumb'] = $image_size;
+			}
 
 			if ( 'self' == $endpoints ) {
 				$user_id = $this->get_user_id( $user_name, $client_id );
@@ -148,7 +164,7 @@ if ( ! class_exists( 'Cherry_Instagram' ) ) {
 			 */
 			do_action( $this->widget_slug . '_before', $args, $instance );
 
-			if ( !empty( $instance['title'] ) ) {
+			if ( ! empty( $instance['title'] ) ) {
 				/**
 				 * Filter the widget title.
 				 *
@@ -214,6 +230,12 @@ if ( ! class_exists( 'Cherry_Instagram' ) ) {
 			print $output;
 		}
 
+		/**
+		 * Removes the cache contents matching key and group.
+		 *
+		 * @since  1.0.0
+		 * @return void
+		 */
 		public function flush_widget_cache() {
 			wp_cache_delete( $this->get_widget_slug(), 'widget' );
 		}
@@ -222,8 +244,8 @@ if ( ! class_exists( 'Cherry_Instagram' ) ) {
 		 * Processes the widget's options to be saved.
 		 *
 		 * @since 1.0.0
-		 * @param array new_instance The new instance of values to be generated via the update.
-		 * @param array old_instance The previous instance of values before the update.
+		 * @param array $new_instance The new instance of values to be generated via the update.
+		 * @param array $old_instance The previous instance of values before the update.
 		 */
 		public function update( $new_instance, $old_instance ) {
 			$instance = $old_instance;
@@ -237,9 +259,9 @@ if ( ! class_exists( 'Cherry_Instagram' ) ) {
 			$instance['image_size']    = esc_attr( $new_instance['image_size'] );
 			$instance['image_counter'] = absint( $new_instance['image_counter'] );
 
-			$instance['display_description'] = !empty( $new_instance['display_description'] ) ? 1 : 0;
-			$instance['display_time']        = !empty( $new_instance['display_time'] ) ? 1 : 0;
-			$instance['link']                = !empty( $new_instance['link'] ) ? 1 : 0;
+			$instance['display_description'] = ! empty( $new_instance['display_description'] ) ? 1 : 0;
+			$instance['display_time']        = ! empty( $new_instance['display_time'] ) ? 1 : 0;
+			$instance['link']                = ! empty( $new_instance['link'] ) ? 1 : 0;
 
 			// Delete a cache.
 			delete_transient( 'cherry_instagram_user_id' );
@@ -252,7 +274,7 @@ if ( ! class_exists( 'Cherry_Instagram' ) ) {
 		 * Generates the administration form for the widget.
 		 *
 		 * @since 1.0.0
-		 * @param array instance The array of keys and values for the widget.
+		 * @param array $instance The array of keys and values for the widget.
 		 */
 		public function form( $instance ) {
 			/**
@@ -325,6 +347,14 @@ if ( ! class_exists( 'Cherry_Instagram' ) ) {
 			) );
 		}
 
+		/**
+		 * Retrieve a user name by ID.
+		 *
+		 * @since  1.0.0
+		 * @param  string $user_name User name.
+		 * @param  string $client_id Instagram CLIENT ID.
+		 * @return string
+		 */
 		public function get_user_id( $user_name, $client_id ) {
 			$cached = get_transient( 'cherry_instagram_user_id' );
 
@@ -338,7 +368,7 @@ if ( ! class_exists( 'Cherry_Instagram' ) ) {
 			);
 			$response = wp_remote_get( $url );
 
-			if ( is_wp_error( $response ) || empty( $response ) || $response ['response']['code'] != '200' ) {
+			if ( is_wp_error( $response ) || empty( $response ) || '200' != $response ['response']['code'] ) {
 				set_transient( 'cherry_instagram_user_id', false, HOUR_IN_SECONDS );
 				return false;
 			}
@@ -360,6 +390,16 @@ if ( ! class_exists( 'Cherry_Instagram' ) ) {
 			return $user_id;
 		}
 
+		/**
+		 * Retrieve a photos.
+		 *
+		 * @since  1.0.0
+		 * @param  string $data        User name or hashtag.
+		 * @param  string $client_id   Instagram CLIENT ID.
+		 * @param  int    $img_counter Number of images.
+		 * @param  array  $config      Set of configuration.
+		 * @return array
+		 */
 		public function get_photos( $data, $client_id, $img_counter, $config ) {
 			$cached = get_transient( 'cherry_instagram_photos' );
 
@@ -380,7 +420,7 @@ if ( ! class_exists( 'Cherry_Instagram' ) ) {
 
 			$response = wp_remote_get( $url );
 
-			if ( is_wp_error( $response ) || empty( $response ) || $response ['response']['code'] != '200' ) {
+			if ( is_wp_error( $response ) || empty( $response ) || '200' != $response ['response']['code'] ) {
 				set_transient( 'cherry_instagram_photos', false, HOUR_IN_SECONDS );
 				return false;
 			}
@@ -401,14 +441,17 @@ if ( ! class_exists( 'Cherry_Instagram' ) ) {
 
 				$_photo = array();
 
-				if ( in_array( 'link', $config ) )
+				if ( in_array( 'link', $config ) ) {
 					$_photo = array_merge( $_photo, array( 'link' => esc_url( $photo['link'] ) ) );
+				}
 
-				if ( in_array( 'time', $config ) )
+				if ( in_array( 'time', $config ) ) {
 					$_photo = array_merge( $_photo, array( 'time' => sanitize_text_field( $photo['created_time'] ) ) );
+				}
 
-				if ( in_array( 'description', $config ) )
+				if ( in_array( 'description', $config ) ) {
 					$_photo = array_merge( $_photo, array( 'description' => wp_trim_words( $photo['caption']['text'], 3 ) ) );
+				}
 
 				if ( array_key_exists( 'thumb', $config ) ) {
 					$size   = ( 'large' == $config['thumb'] ) ? 'standard_resolution' : 'thumbnail';
@@ -426,10 +469,14 @@ if ( ! class_exists( 'Cherry_Instagram' ) ) {
 
 			return $photos;
 		}
-
 	}
 }
 
+/**
+ * Registers a widget.
+ *
+ * @since 1.0.0
+ */
 function cherry_instagram_register_widget() {
 	register_widget( 'Cherry_Instagram' );
 }

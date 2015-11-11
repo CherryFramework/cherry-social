@@ -4,9 +4,8 @@
  *
  * @package   Cherry_Social
  * @author    Cherry Team
- * @license   GPL-2.0+
- * @link      http://www.cherryframework.com/
- * @copyright 2015 Cherry Team
+ * @license   GPL-3.0+
+ * @copyright 2012 - 2015, Cherry Team
  */
 
 // If this file is called directly, abort.
@@ -14,7 +13,13 @@ if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
-if ( !class_exists( 'Cherry_Facebook_Like_Box' ) ) {
+if ( ! class_exists( 'Cherry_Facebook_Like_Box' ) ) {
+
+	/**
+	 * Class for Facebook Like Box Widget.
+	 *
+	 * @since 1.0.0
+	 */
 	class Cherry_Facebook_Like_Box extends WP_Widget {
 
 		/**
@@ -37,7 +42,7 @@ if ( !class_exists( 'Cherry_Facebook_Like_Box' ) ) {
 				__( 'Cherry Facebook Like Box', 'cherry-social' ),
 				array(
 					'classname'   => $this->get_widget_slug() . '-class',
-					'description' => __( 'A widget for Facebook Like Box.', 'cherry-social' )
+					'description' => __( 'A widget for Facebook Like Box.', 'cherry-social' ),
 				)
 			);
 
@@ -69,11 +74,11 @@ if ( !class_exists( 'Cherry_Facebook_Like_Box' ) ) {
 			// Check if there is a cached output.
 			$cache = wp_cache_get( $this->get_widget_slug(), 'widget' );
 
-			if ( !is_array( $cache ) ) {
+			if ( ! is_array( $cache ) ) {
 				$cache = array();
 			}
 
-			if ( !isset( $args['widget_id'] ) ) {
+			if ( ! isset( $args['widget_id'] ) ) {
 				$args['widget_id'] = $this->id;
 			}
 
@@ -92,7 +97,7 @@ if ( !class_exists( 'Cherry_Facebook_Like_Box' ) ) {
 			 */
 			do_action( $this->widget_slug . '_before', $args, $instance );
 
-			if ( !empty( $instance['title'] ) ) {
+			if ( ! empty( $instance['title'] ) ) {
 				/**
 				 * Filter the widget title.
 				 *
@@ -112,11 +117,11 @@ if ( !class_exists( 'Cherry_Facebook_Like_Box' ) ) {
 			}
 
 			$page_url = esc_url( $instance['page_url'] );
-			$height   = !empty( $instance['height'] ) ? absint( $instance['height'] ) : '';
-			$cover    = !empty( $instance['cover'] ) ? 1 : 0;
-			$header   = !empty( $instance['header'] ) ? 1 : 0;
-			$faces    = !empty( $instance['faces'] )  ? 1 : 0;
-			$posts    = !empty( $instance['posts'] ) ? 1 : 0;
+			$height   = ! empty( $instance['height'] ) ? absint( $instance['height'] ) : '';
+			$cover    = ! empty( $instance['cover'] ) ? 1 : 0;
+			$header   = ! empty( $instance['header'] ) ? 1 : 0;
+			$faces    = ! empty( $instance['faces'] )  ? 1 : 0;
+			$posts    = ! empty( $instance['posts'] ) ? 1 : 0;
 
 			ob_start();
 			include( trailingslashit( CHERRY_SOCIAL_PUBLIC ) . 'views/facebook-like-box.php' );
@@ -137,6 +142,12 @@ if ( !class_exists( 'Cherry_Facebook_Like_Box' ) ) {
 			print $output;
 		}
 
+		/**
+		 * Removes the cache contents matching key and group.
+		 *
+		 * @since  1.0.0
+		 * @return void
+		 */
 		public function flush_widget_cache() {
 			wp_cache_delete( $this->get_widget_slug(), 'widget' );
 		}
@@ -145,8 +156,8 @@ if ( !class_exists( 'Cherry_Facebook_Like_Box' ) ) {
 		 * Processes the widget's options to be saved.
 		 *
 		 * @since 1.0.0
-		 * @param array new_instance The new instance of values to be generated via the update.
-		 * @param array old_instance The previous instance of values before the update.
+		 * @param array $new_instance The new instance of values to be generated via the update.
+		 * @param array $old_instance The previous instance of values before the update.
 		 */
 		public function update( $new_instance, $old_instance ) {
 			$instance = $old_instance;
@@ -154,10 +165,10 @@ if ( !class_exists( 'Cherry_Facebook_Like_Box' ) ) {
 			$instance['title']    = strip_tags( $new_instance['title'] );
 			$instance['page_url'] = esc_url( $new_instance['page_url'] );
 			$instance['height']   = absint( $new_instance['height'] );
-			$instance['cover']    = !empty( $new_instance['cover'] ) ? 1 : 0;
-			$instance['header']   = !empty( $new_instance['header'] ) ? 1 : 0;
-			$instance['faces']    = !empty( $new_instance['faces'] )  ? 1 : 0;
-			$instance['posts']    = !empty( $new_instance['posts'] ) ? 1 : 0;
+			$instance['cover']    = ! empty( $new_instance['cover'] ) ? 1 : 0;
+			$instance['header']   = ! empty( $new_instance['header'] ) ? 1 : 0;
+			$instance['faces']    = ! empty( $new_instance['faces'] )  ? 1 : 0;
+			$instance['posts']    = ! empty( $new_instance['posts'] ) ? 1 : 0;
 
 			return $instance;
 		}
@@ -166,7 +177,7 @@ if ( !class_exists( 'Cherry_Facebook_Like_Box' ) ) {
 		 * Generates the administration form for the widget.
 		 *
 		 * @since 1.0.0
-		 * @param array instance The array of keys and values for the widget.
+		 * @param array $instance The array of keys and values for the widget.
 		 */
 		public function form( $instance ) {
 			/**
@@ -197,10 +208,14 @@ if ( !class_exists( 'Cherry_Facebook_Like_Box' ) ) {
 			// Display the admin form.
 			include( trailingslashit( CHERRY_SOCIAL_ADMIN ) . 'views/facebook-like-box-admin.php' );
 		}
-
 	}
 }
 
+/**
+ * Registers a widget.
+ *
+ * @since 1.0.0
+ */
 function cherry_facebok_like_box_register_widget() {
 	register_widget( 'Cherry_Facebook_Like_Box' );
 }

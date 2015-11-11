@@ -1,9 +1,13 @@
 <?php
-// If this file is called directly, abort.
-if ( ! defined( 'WPINC' ) ) {
-	die;
-} ?>
-
+/**
+ * Represents the view for Twitter Timeline Widget.
+ *
+ * @package   Cherry Social
+ * @author    Cherry Team
+ * @license   GPL-3.0+
+ * @copyright 2012 - 2015, Cherry Team
+ */
+?>
 <a class="twitter-timeline"
 	data-widget-id="<?php echo $widget_ID; ?>"
 	data-theme="<?php echo $skin; ?>"

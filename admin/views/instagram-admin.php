@@ -1,13 +1,9 @@
 <?php
-// If this file is called directly, abort.
-if ( ! defined( 'ABSPATH' ) ) {
-	die;
-}
-
 /**
  * Fires before a widget form.
  *
- * @since 1.0.0
+ * @package Cherry_Testimonials_Admin
+ * @since   1.0.0
  */
 do_action( 'cherry_instagram_widget_form_before' );
 ?>
@@ -30,20 +26,20 @@ do_action( 'cherry_instagram_widget_form_before' );
 <p>
 	<label for="<?php echo $this->get_field_id( 'user_name' ); ?>"><?php _e( 'User Name:', 'cherry-social' ); ?></label>
 	<input type="text" name="<?php echo $this->get_field_name( 'user_name' ); ?>" value="<?php echo $user_name; ?>" class="widefat" id="<?php echo $this->get_field_id( 'user_name' ); ?>" /><br>
-	<small><?php _e( "Widget will work only for users who have full rights opened in Instagram account.", 'cherry-social' ); ?></small>
+	<small><?php _e( 'Widget will work only for users who have full rights opened in Instagram account.', 'cherry-social' ); ?></small>
 </p>
 <!-- Widget Hashtag: Text Input -->
 <p>
 	<label for="<?php echo $this->get_field_id( 'tag' ); ?>"><?php _e( 'Hashtag:', 'cherry-social' ); ?></label>
 	<input type="text" name="<?php echo $this->get_field_name( 'tag' ); ?>" value="<?php echo $tag; ?>" class="widefat" id="<?php echo $this->get_field_id( 'tag' ); ?>" /><br>
-	<small><?php _e( "Enter without `#` symbol.", 'cherry-social' ); ?></small>
+	<small><?php _e( 'Enter without `#` symbol.', 'cherry-social' ); ?></small>
 </p>
 <!-- Widget Client ID: Text Input -->
 <p>
 	<label for="<?php echo $this->get_field_id( 'client_id' ); ?>"><?php _e( 'Client ID:', 'cherry-social' ); ?></label>
 	<input type="text" name="<?php echo $this->get_field_name( 'client_id' ); ?>" value="<?php echo $client_id; ?>" class="widefat" id="<?php echo $this->get_field_id( 'client_id' ); ?>" /><br>
 	<?php $_link = sprintf( __( "<a href='%s' target='_blank'>link</a>", 'cherry-social' ), esc_url( 'https://instagram.com/developer/clients/manage/' ) ); ?>
-	<small><?php printf( __( "Follow this %s and create the application. After that you will get your application data where you will see the CLIENT ID.", 'cherry-social' ), $_link ); ?></small>
+	<small><?php printf( __( 'Follow this %s and create the application. After that you will get your application data where you will see the CLIENT ID.', 'cherry-social' ), $_link ); ?></small>
 </p>
 <!-- Widget Images count: Text Input -->
 <p>
@@ -86,4 +82,3 @@ do_action( 'cherry_instagram_widget_form_before' );
  * @since 1.0.0
  */
 do_action( 'cherry_instagram_widget_form_after' );
-?>
