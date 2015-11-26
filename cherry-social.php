@@ -71,25 +71,23 @@ if ( ! class_exists( 'Cherry_Social' ) ) {
 		 * @since 1.0.0
 		 */
 		private function __construct() {
-			// Set the constants needed by the plugin.
 			add_action( 'plugins_loaded', array( $this, 'constants' ), 1 );
-
-			// Internationalize the text strings used.
 			add_action( 'plugins_loaded', array( $this, 'lang' ),      2 );
-
-			// Load the functions files.
 			add_action( 'plugins_loaded', array( $this, 'includes' ),  3 );
-
-			// Load the admin files.
 			add_action( 'plugins_loaded', array( $this, 'admin' ),     4 );
 
 			add_action( 'init', array( $this, 'register_static' ), 11 );
 
-			add_filter( 'cherry_pre_get_the_post_share', array( $this, 'share' ), 10, 2 );
-			add_filter( 'cherry_defaults_settings',      array( $this, 'add_cherry_options' ), 11 );
+			// Callback for `%%SHARE%%` macros (for Blog and Single Post pages in themes based on cherryframework).
+			add_filter( 'cherry_pre_get_the_post_share', array( $this, 'share' ), 9, 2 );
 
-			// Load public-facing style sheet and JavaScript.
-			add_action( 'wp_enqueue_scripts',         array( $this, 'enqueue_styles' ) );
+			// Adds a section to `Cherry Options`.
+			add_filter( 'cherry_defaults_settings', array( $this, 'add_cherry_options' ), 11 );
+
+			// Load public-facing stylesheet.
+			add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_styles' ) );
+
+			// Pass style handle to CSS compiler.
 			add_filter( 'cherry_compiler_static_css', array( $this, 'add_style_to_compiler' ) );
 
 			// Register activation and deactivation hook.
@@ -148,14 +146,14 @@ if ( ! class_exists( 'Cherry_Social' ) ) {
 		public function admin() {
 
 			if ( is_admin() ) {
-				require_once( CHERRY_SOCIAL_DIR . 'admin/includes/class-cherry-update/class-cherry-plugin-update.php' );
+				require_once( CHERRY_SOCIAL_ADMIN . '/includes/class-cherry-update/class-cherry-plugin-update.php' );
 
 				$Cherry_Plugin_Update = new Cherry_Plugin_Update();
 				$Cherry_Plugin_Update->init( array(
 					'version'         => CHERRY_SOCIAL_VERSION,
 					'slug'            => CHERRY_SOCIAL_SLUG,
 					'repository_name' => CHERRY_SOCIAL_SLUG,
-				));
+				) );
 			}
 		}
 
@@ -307,11 +305,16 @@ if ( ! class_exists( 'Cherry_Social' ) ) {
 		 * Before outputing a share buttons check options.
 		 *
 		 * @since  1.0.0
-		 * @param  string $pre  Pre-content.
-		 * @param  array  $attr Set of attributes.
-		 * @return string
+		 * @param  bool  $pre  Value to return instead of the callback-function.
+		 * @param  array $attr Set of attributes.
+		 * @return string|bool
 		 */
-		public function share( $pre, $attr ) {
+		public function share( $pre = false, $attr = array() ) {
+			$share_options = ( false === $pre ) ? $this->get_option( 'share-items' ) : explode( ',', $pre );
+
+			if ( empty( $attr ) ) {
+				return $this->share_buttons( $share_options, false );
+			}
 
 			if ( ! empty( $attr['where'] ) ) {
 				if ( ( ( 'loop' === $attr['where'] ) && is_singular() )
@@ -321,15 +324,21 @@ if ( ! class_exists( 'Cherry_Social' ) ) {
 				}
 			}
 
-			$share_options = $this->get_option( 'share-items' );
+			$_attr = $attr;
+
+			if ( is_array( $attr ) && ! empty( $attr['networks'] ) ) {
+				$_attr = $attr['networks'];
+			}
+
+			if ( is_string( $_attr ) ) {
+				$share_options = explode( ',', $_attr );
+			}
 
 			if ( empty( $share_options ) ) {
 				return $pre;
 			}
 
-			$pre = $this->share_buttons( $share_options, false );
-
-			return $pre;
+			return $this->share_buttons( $share_options, false );
 		}
 
 		/**
@@ -402,10 +411,12 @@ if ( ! class_exists( 'Cherry_Social' ) ) {
 				return;
 			}
 
+			$custom_class = ! empty( $custom_class ) ? ' ' . $custom_class : '';
+
 			$output = sprintf(
-				'<div id="cherry-share-btns-%1$d" class="cherry-share-btns_wrap %2$s"><ul class="cherry-share_list clearfix">%3$s</ul></div>',
+				'<div id="cherry-share-btns-%1$d" class="cherry-share-btns_wrap%2$s"><ul class="cherry-share_list clearfix">%3$s</ul></div>',
 				++self::$share_group_counter,
-				sanitize_html_class( $custom_class ),
+				esc_attr( $custom_class ),
 				$share_buttons
 			);
 
@@ -462,6 +473,10 @@ if ( ! class_exists( 'Cherry_Social' ) ) {
 
 			$follows = $this->get_option( 'follow-items', false );
 
+			if ( false === $follows ) {
+				return;
+			}
+
 			if ( -1 != $networks ) {
 				foreach ( $follows as $id => $follow ) {
 
@@ -480,9 +495,10 @@ if ( ! class_exists( 'Cherry_Social' ) ) {
 			}
 
 			$count = ++self::$follow_group_counter;
-			$custom_class = sanitize_html_class( $custom_class );
+			$custom_class = esc_attr( $custom_class );
+			$custom_class = ! empty( $custom_class ) ? ' ' . $custom_class : '';
 
-			$output = "<div id='cherry-follow-items-{$count}' class='cherry-follow_wrap {$custom_class}'>";
+			$output = "<div id='cherry-follow-items-{$count}' class='cherry-follow_wrap{$custom_class}'>";
 				$output .= "<ul class='cherry-follow_list clearfix'>";
 
 				foreach ( $follows as $i => $follow ) {
@@ -535,14 +551,11 @@ if ( ! class_exists( 'Cherry_Social' ) ) {
 		 */
 		public function get_option( $option, $default = false ) {
 
-			if ( function_exists( 'cherry_get_option' ) ) {
-
-				$result = cherry_get_option( $option, $default );
-
-				return $result;
+			if ( ! function_exists( 'cherry_get_option' ) ) {
+				return $default;
 			}
 
-			return $default;
+			return cherry_get_option( $option, $default );
 		}
 
 		/**
@@ -686,16 +699,19 @@ if ( ! class_exists( 'Cherry_Social' ) ) {
 						'external-link' => 'https://www.facebook.com/cherry.framework',
 						'font-class'    => 'flaticon-facebook',
 						'link-label'    => __( 'Facebook', 'cherry-social' ),
+						'network-id'    => 'network-0',
 					),
 					array(
 						'external-link' => 'https://twitter.com/CherryFramework',
 						'font-class'    => 'flaticon-twitter',
 						'link-label'    => __( 'Twitter', 'cherry-social' ),
+						'network-id'    => 'network-1',
 					),
 					array(
 						'external-link' => 'https://plus.google.com/u/0/110473764189007055556/posts',
 						'font-class'    => 'flaticon-googleplus',
 						'link-label'    => __( 'Google+', 'cherry-social' ),
+						'network-id'    => 'network-2',
 					),
 				),
 			);

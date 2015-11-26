@@ -96,7 +96,7 @@ if ( ! class_exists( 'Cherry_Social_Shortcodes' ) ) {
 			}
 
 			$networks     = explode( ',', $networks );
-			$custom_class = sanitize_html_class( $atts['custom_class'] );
+			$custom_class = $atts['custom_class'];
 			$output       = $this->plugin->share_buttons( $networks, false, $custom_class );
 
 			/**
@@ -139,7 +139,7 @@ if ( ! class_exists( 'Cherry_Social_Shortcodes' ) ) {
 				return;
 			}
 
-			$custom_class = sanitize_html_class( $atts['custom_class'] );
+			$custom_class = $atts['custom_class'];
 			$output       = $this->plugin->get_follows( $networks, false, $custom_class );
 
 			/**
@@ -150,9 +150,7 @@ if ( ! class_exists( 'Cherry_Social_Shortcodes' ) ) {
 			 * @param array  $atts
 			 * @param string $shortcode
 			 */
-			$output = apply_filters( 'cherry_shortcodes_output', $output, $atts, 'follow' );
-
-			return $output;
+			return apply_filters( 'cherry_shortcodes_output', $output, $atts, 'follow' );
 		}
 
 		/**
@@ -243,7 +241,7 @@ if ( ! class_exists( 'Cherry_Social_Shortcodes' ) ) {
 		 * @return string
 		 */
 		public function get_prefix() {
-			return apply_filters( 'cherry_social_shortcode_prefix', 'tm_' );
+			return apply_filters( 'cherry_social_shortcode_prefix', 'cherry_' );
 		}
 
 		/**
