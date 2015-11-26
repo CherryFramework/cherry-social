@@ -290,7 +290,7 @@ if ( ! class_exists( 'Cherry_Social' ) ) {
 		 */
 		public function build_html_item( $url, $data ) {
 
-			$output = sprintf( '<li class="cherry-share_item %2$s-item"><a class="cherry-share_link" href="%1$s" rel="nofollow" target="_blank" rel="nofollow" title="%3$s"><i class="%4$s"></i><span class="cherry-share_label">%5$s</span></a></li>',
+			$output = sprintf( '<li class="cherry-share_item %2$s-item"><a class="cherry-share_link" href="%1$s" rel="nofollow" target="_blank" title="%3$s"><i class="%4$s"></i><span class="cherry-share_label">%5$s</span></a></li>',
 				htmlspecialchars( $url ),
 				sanitize_html_class( $data['id'] ),
 				esc_html__( 'Share on ' . $data['name'], 'cherry-social' ),
