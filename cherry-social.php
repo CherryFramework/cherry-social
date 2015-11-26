@@ -629,17 +629,16 @@ if ( ! class_exists( 'Cherry_Social' ) ) {
 				'pinterest' => array(
 					'id'        => 'pinterest',
 					'name'      => 'Pinterest',
-					'share_url' => 'https://www.pinterest.com/pin/create/button/?url=@@URL@@&description=@@TITLE@@',
+					'share_url' => 'https://www.pinterest.com/pin/create/button/?url=@@URL@@&description=@@TITLE@@&media=@@THUMBNAIL@@',
 				),
 				'linkedin' => array(
 					'id'        => 'linkedin',
 					'name'      => 'LinkedIn',
-					'share_url' => 'https://www.linkedin.com/cws/share?token=&isFramed=false&url=@@URL@@',
+					'share_url' => 'https://www.linkedin.com/cws/share?token=&isFramed=false&title=@@TITLE@@&url=@@URL@@',
 				),
 				'tumblr' => array(
 					'id'        => 'tumblr',
 					'name'      => 'Tumblr',
-					'share_url' => 'http://www.tumblr.com/share?u=@@URL@@&t=@@TITLE@@',
 					'share_url' => 'http://www.tumblr.com/share?v=3&u=@@URL@@&t=@@TITLE@@&s=',
 				),
 				'stumbleupon' => array(
