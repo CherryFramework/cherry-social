@@ -45,8 +45,9 @@ class Cherry_Social_Follow extends WP_Widget {
 		$this->plugin = Cherry_Social::get_instance();
 		$this->follow_items = $this->plugin->get_option( 'follow-items', array() );
 
-		if ( !empty( $this->follow_items ) ) {
-			$values = wp_list_pluck( $this->follow_items, 'link-label' );
+		if ( ! empty( $this->follow_items ) ) {
+			$values = array_filter( $this->follow_items );
+			$values = wp_list_pluck( $values, 'link-label' );
 			$keys   = array_map( 'sanitize_key', $values );
 			$this->follow_items = array_combine( $keys, $values );
 		}
