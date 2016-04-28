@@ -274,7 +274,7 @@ if ( ! class_exists( 'Cherry_Social' ) ) {
 					$_v = strtolower( trim( $v, '@@' ) );
 				}
 
-				$query[ $k ] = ( isset( $post_data[ $_v ] ) ) ? $post_data[ $_v ] : '';
+				$query[ $k ] = ( isset( $post_data[ $_v ] ) ) ? urlencode( $post_data[ $_v ] ) : '';
 			}
 
 			return $query;
@@ -376,34 +376,38 @@ if ( ! class_exists( 'Cherry_Social' ) ) {
 
 			foreach ( (array) $networks as $network ) :
 
-					if ( ! empty( $share_btns[ $network ]['callback'] )
-						&& is_callable( $share_btns[ $network ]['callback'] )
-						) {
-						$_url = call_user_func( $share_btns[ $network ]['callback'], $post_data );
-						$share_buttons .= $this->build_html_item( $_url, $share_btns[ $network ] );
-						continue;
-					}
-
-					if ( empty( $share_btns[ $network ]['share_url'] ) ) {
-						continue;
-					}
-
-					// Parse a URL and return its components (array).
-					$parse_url = parse_url( $share_btns[ $network ]['share_url'] );
-					$new_url   = $this->http() . '://' . $parse_url['host'] . $parse_url['path'];
-
-					if ( empty( $parse_url['query'] ) ) {
-						$share_buttons .= $this->build_html_item( $new_url, $share_btns[ $network ] );
-						continue;
-					}
-
-					// Parse a query-string (after the question mark `?`) into variables to be stored in an array.
-					wp_parse_str( $parse_url['query'], $query );
-
-					$_query = $this->prepare_query( $query, $post_data );
-					$_url   = add_query_arg( urlencode_deep( $_query ), $new_url );
-
+				if ( ! empty( $share_btns[ $network ]['callback'] )
+					&& is_callable( $share_btns[ $network ]['callback'] )
+					) {
+					$_url = call_user_func( $share_btns[ $network ]['callback'], $post_data );
 					$share_buttons .= $this->build_html_item( $_url, $share_btns[ $network ] );
+					continue;
+				}
+
+				if ( empty( $share_btns[ $network ]['share_url'] ) ) {
+					continue;
+				}
+
+				if ( 'pinterest' === $network && empty( $post_data['thumbnail'] ) ) {
+					continue;
+				}
+
+				// Parse a URL and return its components (array).
+				$parse_url = parse_url( $share_btns[ $network ]['share_url'] );
+				$new_url   = $this->http() . '://' . $parse_url['host'] . $parse_url['path'];
+
+				if ( empty( $parse_url['query'] ) ) {
+					$share_buttons .= $this->build_html_item( $new_url, $share_btns[ $network ] );
+					continue;
+				}
+
+				// Parse a query-string (after the question mark `?`) into variables to be stored in an array.
+				wp_parse_str( $parse_url['query'], $query );
+
+				$_query = $this->prepare_query( $query, $post_data );
+				$_url   = add_query_arg( $_query, $new_url );
+
+				$share_buttons .= $this->build_html_item( $_url, $share_btns[ $network ] );
 
 			endforeach;
 
