@@ -19,7 +19,7 @@ if ( ! class_exists( 'Cherry_Instagram' ) ) {
 	 * Class for Instagram Widget.
 	 *
 	 * @since 1.0.0
-	 * @since 1.0.1 Removed `get_user_id` method.
+	 * @since 1.0.4 Removed `get_user_id` method.
 	 */
 	class Cherry_Instagram extends WP_Widget {
 
@@ -34,7 +34,7 @@ if ( ! class_exists( 'Cherry_Instagram' ) ) {
 		/**
 		 * Instagram API server.
 		 *
-		 * @since 1.0.1
+		 * @since 1.0.4
 		 * @var string
 		 */
 		private $service_url = 'https://www.instagram.com/';
@@ -42,7 +42,7 @@ if ( ! class_exists( 'Cherry_Instagram' ) ) {
 		/**
 		 * Data URL.
 		 *
-		 * @since 1.0.1
+		 * @since 1.0.4
 		 * @var string
 		 */
 		private $data_url = '';
@@ -303,7 +303,7 @@ if ( ! class_exists( 'Cherry_Instagram' ) ) {
 		 * Retrieve a photos.
 		 *
 		 * @since  1.0.0
-		 * @since  1.0.1  Removed `$client_id` parametr.
+		 * @since  1.0.4  Removed `$client_id` parametr.
 		 * @param  string $data        User name or hashtag.
 		 * @param  int    $img_counter Number of images.
 		 * @param  array  $config      Set of configuration.
@@ -413,7 +413,7 @@ if ( ! class_exists( 'Cherry_Instagram' ) ) {
 		/**
 		 * Retrieve a HTML link with image.
 		 *
-		 * @since  1.0.1  Changed link `href` attribute.
+		 * @since  1.0.4  Changed link `href` attribute.
 		 * @param  array  $photo      Item photo data.
 		 * @param  string $image_size Photo size.
 		 * @return string
@@ -444,7 +444,7 @@ if ( ! class_exists( 'Cherry_Instagram' ) ) {
 		/**
 		 * Retrieve a photo sizes (in px) by option name.
 		 *
-		 * @since  1.0.1
+		 * @since  1.0.4
 		 * @param  string $image_size Photo size.
 		 * @return array
 		 */
@@ -466,7 +466,7 @@ if ( ! class_exists( 'Cherry_Instagram' ) ) {
 		/**
 		 * Retrieve a URL for post.
 		 *
-		 * @since  1.0.1
+		 * @since  1.0.4
 		 * @return string
 		 */
 		public function get_post_url() {
@@ -476,7 +476,7 @@ if ( ! class_exists( 'Cherry_Instagram' ) ) {
 		/**
 		 * Retrieve a caption.
 		 *
-		 * @since  1.0.1
+		 * @since  1.0.4
 		 * @param  array  $photo Item photo data.
 		 * @return string
 		 */
@@ -492,7 +492,7 @@ if ( ! class_exists( 'Cherry_Instagram' ) ) {
 		/**
 		 * Retrieve a HTML tag with date.
 		 *
-		 * @since  1.0.1
+		 * @since  1.0.4
 		 * @param  array  $photo  Item photo data.
 		 * @param  string $format Date format.
 		 * @return string
@@ -509,7 +509,7 @@ if ( ! class_exists( 'Cherry_Instagram' ) ) {
 		/**
 		 * Retrieve a view template for widget.
 		 *
-		 * @since  1.0.1
+		 * @since  1.0.4
 		 * @return string
 		 */
 		public function view_template() {
