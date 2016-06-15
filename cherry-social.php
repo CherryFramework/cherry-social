@@ -345,9 +345,9 @@ if ( ! class_exists( 'Cherry_Social' ) ) {
 		 * Output or retrieve a share buttons in the list-style.
 		 *
 		 * @since  1.0.0
-		 * @param  array   $networks     Set of social networks.
-		 * @param  boolean $echo         Echo or return.
-		 * @param  string  $custom_class Extra CSS-class.
+		 * @param  array  $networks     Set of social networks.
+		 * @param  bool   $echo         Echo or return.
+		 * @param  string $custom_class Extra CSS-class.
 		 * @return string
 		 */
 		public function share_buttons( $networks, $echo = true, $custom_class = '' ) {
@@ -465,7 +465,7 @@ if ( ! class_exists( 'Cherry_Social' ) ) {
 		 *
 		 * @since  1.0.0
 		 * @param  array|init $networks     Array with network names or `-1` - if you want get all networks.
-		 * @param  boolean    $echo         Output or retrieve result.
+		 * @param  bool       $echo         Output or retrieve result.
 		 * @param  string     $custom_class Extra CSS-class.
 		 * @return string
 		 */
