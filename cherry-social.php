@@ -3,7 +3,7 @@
  * Plugin Name: Cherry Social
  * Plugin URI:  http://www.cherryframework.com/
  * Description: A social plugin for WordPress.
- * Version:     1.0.4-beta
+ * Version:     1.0.4-beta2
  * Author:      Cherry Team
  * Author URI:  http://www.cherryframework.com/
  * Text Domain: cherry-social
@@ -101,7 +101,7 @@ if ( ! class_exists( 'Cherry_Social' ) ) {
 		 * @since 1.0.0
 		 */
 		public function constants() {
-			define( 'CHERRY_SOCIAL_VERSION', '1.0.4-beta' );
+			define( 'CHERRY_SOCIAL_VERSION', '1.0.4-beta2' );
 			define( 'CHERRY_SOCIAL_SLUG',    basename( dirname( __FILE__ ) ) );
 			define( 'CHERRY_SOCIAL_DIR',     trailingslashit( plugin_dir_path( __FILE__ ) ) );
 			define( 'CHERRY_SOCIAL_URI',     trailingslashit( plugin_dir_url( __FILE__ ) ) );
@@ -148,8 +148,8 @@ if ( ! class_exists( 'Cherry_Social' ) ) {
 			if ( is_admin() ) {
 				require_once( CHERRY_SOCIAL_ADMIN . '/includes/class-cherry-update/class-cherry-plugin-update.php' );
 
-				$Cherry_Plugin_Update = new Cherry_Plugin_Update();
-				$Cherry_Plugin_Update->init( array(
+				$updater = new Cherry_Plugin_Update();
+				$updater->init( array(
 					'version'         => CHERRY_SOCIAL_VERSION,
 					'slug'            => CHERRY_SOCIAL_SLUG,
 					'repository_name' => CHERRY_SOCIAL_SLUG,
@@ -345,9 +345,9 @@ if ( ! class_exists( 'Cherry_Social' ) ) {
 		 * Output or retrieve a share buttons in the list-style.
 		 *
 		 * @since  1.0.0
-		 * @param  array   $networks     Set of social networks.
-		 * @param  boolean $echo         Echo or return.
-		 * @param  string  $custom_class Extra CSS-class.
+		 * @param  array  $networks     Set of social networks.
+		 * @param  bool   $echo         Echo or return.
+		 * @param  string $custom_class Extra CSS-class.
 		 * @return string
 		 */
 		public function share_buttons( $networks, $echo = true, $custom_class = '' ) {
@@ -465,7 +465,7 @@ if ( ! class_exists( 'Cherry_Social' ) ) {
 		 *
 		 * @since  1.0.0
 		 * @param  array|init $networks     Array with network names or `-1` - if you want get all networks.
-		 * @param  boolean    $echo         Output or retrieve result.
+		 * @param  bool       $echo         Output or retrieve result.
 		 * @param  string     $custom_class Extra CSS-class.
 		 * @return string
 		 */

@@ -9,7 +9,7 @@
  */
 ?>
 <a class="twitter-timeline"
-	data-widget-id="<?php echo $widget_ID; ?>"
+	data-widget-id="<?php echo $tw_widget_id; ?>"
 	data-theme="<?php echo $skin; ?>"
 	data-link-color="#<?php echo $link_color; ?>"
 	data-border-color="#<?php echo $border_color; ?>"

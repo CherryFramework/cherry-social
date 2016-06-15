@@ -120,7 +120,7 @@ if ( ! class_exists( 'Cherry_Twitter_Timeline' ) ) {
 				}
 			}
 
-			$widget_ID    = esc_attr( $instance['widget_ID'] );
+			$tw_widget_id = esc_attr( $instance['widget_ID'] );
 			$height       = ! empty( $instance['height'] )       ? absint( $instance['height'] ) : '';
 			$limit        = ! empty( $instance['limit'] )        ? absint( $instance['limit'] ) : '';
 			$link_color   = ! empty( $instance['link_color'] )   ? esc_attr( $instance['link_color'] ) : '';
@@ -229,7 +229,7 @@ if ( ! class_exists( 'Cherry_Twitter_Timeline' ) ) {
 
 			$instance     = wp_parse_args( (array) $instance, $defaults );
 			$title        = esc_attr( $instance['title'] );
-			$widget_ID    = esc_attr( $instance['widget_ID'] );
+			$tw_widget_id = esc_attr( $instance['widget_ID'] );
 			$height       = intval( $instance['height'] );
 			$limit        = ! empty( $instance['limit'] ) ? intval( $instance['limit'] ) : esc_attr( $defaults['limit'] );
 			$skin         = $this->get_skin_options();

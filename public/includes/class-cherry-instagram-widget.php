@@ -367,7 +367,7 @@ if ( ! class_exists( 'Cherry_Instagram' ) ) {
 					$_photo['date'] = sanitize_text_field( $photo['date'] );
 				}
 
-				if ( in_array( 'caption', $config ) ) {
+				if ( in_array( 'caption', $config ) && ! empty( $photo['caption'] ) ) {
 					$_photo['caption'] = wp_html_excerpt(
 						$photo['caption'],
 						apply_filters( 'cherry_instagram_caption_length', 10 ),
@@ -477,7 +477,7 @@ if ( ! class_exists( 'Cherry_Instagram' ) ) {
 		 * Retrieve a caption.
 		 *
 		 * @since  1.0.4
-		 * @param  array  $photo Item photo data.
+		 * @param  array $photo Item photo data.
 		 * @return string
 		 */
 		public function get_caption( $photo ) {

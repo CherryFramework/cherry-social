@@ -16,7 +16,7 @@ do_action( 'cherry_twitter_timeline_widget_form_before' );
 <!-- Widget ID: Text Input -->
 <p>
 	<label for="<?php echo $this->get_field_id( 'widget_ID' ); ?>"><?php _e( 'Widget ID:', 'cherry-social' ); ?></label>
-	<input type="text" name="<?php echo $this->get_field_name( 'widget_ID' ); ?>" value="<?php echo $widget_ID; ?>" class="widefat" id="<?php echo $this->get_field_id( 'widget_ID' ); ?>" /><br>
+	<input type="text" name="<?php echo $this->get_field_name( 'widget_ID' ); ?>" value="<?php echo $tw_widget_id; ?>" class="widefat" id="<?php echo $this->get_field_id( 'widget_ID' ); ?>" /><br>
 	<?php $link = sprintf( __( "<a href='%s' target='_blank'>page</a>", 'cherry-social' ), esc_url( 'https://twitter.com/settings/widgets/new' ) ); ?>
 	<small><?php printf( __( "Your widget ID. First of all you need  to make a new widget on %s. After that copy and paste widget ID here. You can find it after creating the widget in browser's URL field. It contains only numbers.", 'cherry-social' ), $link ); ?></small>
 </p>
