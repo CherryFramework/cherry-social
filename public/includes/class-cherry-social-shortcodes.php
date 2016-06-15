@@ -4,9 +4,8 @@
  *
  * @package   Cherry_Social
  * @author    Cherry Team
- * @license   GPL-2.0+
- * @link      http://www.cherryframework.com/
- * @copyright 2015 Cherry Team
+ * @license   GPL-3.0+
+ * @copyright 2012 - 2015, Cherry Team
  */
 
 // If this file is called directly, abort.
@@ -14,8 +13,7 @@ if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
-// If class `Cherry_Social_Shortcodes` not exists.
-if ( !class_exists( 'Cherry_Social_Shortcodes' ) ) {
+if ( ! class_exists( 'Cherry_Social_Shortcodes' ) ) {
 
 	/**
 	 * Class for Social shortcode.
@@ -98,7 +96,7 @@ if ( !class_exists( 'Cherry_Social_Shortcodes' ) ) {
 			}
 
 			$networks     = explode( ',', $networks );
-			$custom_class = sanitize_html_class( $atts['custom_class'] );
+			$custom_class = $atts['custom_class'];
 			$output       = $this->plugin->share_buttons( $networks, false, $custom_class );
 
 			/**
@@ -141,7 +139,7 @@ if ( !class_exists( 'Cherry_Social_Shortcodes' ) ) {
 				return;
 			}
 
-			$custom_class = sanitize_html_class( $atts['custom_class'] );
+			$custom_class = $atts['custom_class'];
 			$output       = $this->plugin->get_follows( $networks, false, $custom_class );
 
 			/**
@@ -152,9 +150,7 @@ if ( !class_exists( 'Cherry_Social_Shortcodes' ) ) {
 			 * @param array  $atts
 			 * @param string $shortcode
 			 */
-			$output = apply_filters( 'cherry_shortcodes_output', $output, $atts, 'follow' );
-
-			return $output;
+			return apply_filters( 'cherry_shortcodes_output', $output, $atts, 'follow' );
 		}
 
 		/**
@@ -168,7 +164,7 @@ if ( !class_exists( 'Cherry_Social_Shortcodes' ) ) {
 			$share_btns   = $this->plugin->get_the_share_btns();
 			$share_values = wp_list_pluck( $share_btns, 'name' );
 
-			$shortcodes[ 'sharing' ] = array(
+			$shortcodes['sharing'] = array(
 				'name'  => __( 'Sharing', 'cherry-social' ),
 				'desc'  => 'This is a Sharing Shortcode',
 				'type'  => 'single',
@@ -185,7 +181,7 @@ if ( !class_exists( 'Cherry_Social_Shortcodes' ) ) {
 							'custom_class' => array(
 								'default' => '',
 								'name'    => __( 'Class', 'cherry-social' ),
-								'desc'    => __( 'Extra CSS class', 'cherry-social' )
+								'desc'    => __( 'Extra CSS class', 'cherry-social' ),
 							),
 						),
 				'icon'     => 'share-square',
@@ -209,10 +205,9 @@ if ( !class_exists( 'Cherry_Social_Shortcodes' ) ) {
 				} else {
 					$follow_values[ sanitize_key( $follow['network-id'] ) ] = $follow['link-label'];
 				}
-
 			}
 
-			$shortcodes[ 'follow' ] = array(
+			$shortcodes['follow'] = array(
 				'name'  => __( 'Follow', 'cherry-social' ),
 				'desc'  => 'This is a Follow Shortcode',
 				'type'  => 'single',
@@ -229,7 +224,7 @@ if ( !class_exists( 'Cherry_Social_Shortcodes' ) ) {
 							'custom_class' => array(
 								'default' => '',
 								'name'    => __( 'Class', 'cherry-social' ),
-								'desc'    => __( 'Extra CSS class', 'cherry-social' )
+								'desc'    => __( 'Extra CSS class', 'cherry-social' ),
 							),
 						),
 				'icon'     => 'users',
@@ -246,7 +241,7 @@ if ( !class_exists( 'Cherry_Social_Shortcodes' ) ) {
 		 * @return string
 		 */
 		public function get_prefix() {
-			return apply_filters( 'cherry_social_shortcode_prefix', 'tm_' );
+			return apply_filters( 'cherry_social_shortcode_prefix', 'cherry_' );
 		}
 
 		/**
@@ -258,12 +253,12 @@ if ( !class_exists( 'Cherry_Social_Shortcodes' ) ) {
 		public static function get_instance() {
 
 			// If the single instance hasn't been set, set it now.
-			if ( null == self::$instance )
+			if ( null == self::$instance ) {
 				self::$instance = new self;
+			}
 
 			return self::$instance;
 		}
-
 	}
 
 	Cherry_Social_Shortcodes::get_instance();

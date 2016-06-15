@@ -1,13 +1,9 @@
 <?php
-// If this file is called directly, abort.
-if ( ! defined( 'ABSPATH' ) ) {
-	die;
-}
-
 /**
  * Fires before a widget form.
  *
- * @since 1.0.0
+ * @package Cherry_Testimonials_Admin
+ * @since   1.0.0
  */
 do_action( 'cherry_social_follow_widget_form_before' );
 ?>
@@ -42,4 +38,3 @@ do_action( 'cherry_social_follow_widget_form_before' );
  * @since 1.0.0
  */
 do_action( 'cherry_social_follow_widget_form_after' );
-?>

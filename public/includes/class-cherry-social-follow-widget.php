@@ -1,6 +1,11 @@
 <?php
 /**
  * Cherry Social Follow Widget.
+ *
+ * @package   Cherry_Social
+ * @author    Cherry Team
+ * @license   GPL-3.0+
+ * @copyright 2012 - 2015, Cherry Team
  */
 
 // If this file is called directly, abort.
@@ -8,6 +13,11 @@ if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
+/**
+ * PHP-class for `Social Follow` widget.
+ *
+ * @since 1.0.0
+ */
 class Cherry_Social_Follow extends WP_Widget {
 
 	/**
@@ -38,7 +48,7 @@ class Cherry_Social_Follow extends WP_Widget {
 			__( 'Cherry Follow Us', 'cherry-social' ),
 			array(
 				'classname'   => $this->get_widget_slug() . '-class',
-				'description' => __( 'A social follow widget.', 'cherry-social' )
+				'description' => __( 'A social follow widget.', 'cherry-social' ),
 			)
 		);
 
@@ -79,11 +89,11 @@ class Cherry_Social_Follow extends WP_Widget {
 		// Check if there is a cached output.
 		$cache = wp_cache_get( $this->get_widget_slug(), 'widget' );
 
-		if ( !is_array( $cache ) ) {
+		if ( ! is_array( $cache ) ) {
 			$cache = array();
 		}
 
-		if ( !isset( $args['widget_id'] ) ) {
+		if ( ! isset( $args['widget_id'] ) ) {
 			$args['widget_id'] = $this->id;
 		}
 
@@ -93,7 +103,7 @@ class Cherry_Social_Follow extends WP_Widget {
 
 		extract( $args, EXTR_SKIP );
 
-		if ( !is_array( $this->follow_items ) || empty( $this->follow_items ) ) {
+		if ( ! is_array( $this->follow_items ) || empty( $this->follow_items ) ) {
 			return print $before_widget . __( 'Sorry, but networks are not found.', 'cherry-social' ) . $after_widget;
 		}
 
@@ -106,7 +116,7 @@ class Cherry_Social_Follow extends WP_Widget {
 		 */
 		do_action( $this->widget_slug . '_before', $args, $instance );
 
-		if ( !empty( $instance['title'] ) ) {
+		if ( ! empty( $instance['title'] ) ) {
 			/**
 			 * Filter the widget title.
 			 *
@@ -137,7 +147,7 @@ class Cherry_Social_Follow extends WP_Widget {
 				continue;
 			}
 
-			if ( !$instance[ $id ] ) {
+			if ( ! $instance[ $id ] ) {
 				continue;
 			}
 
@@ -161,6 +171,12 @@ class Cherry_Social_Follow extends WP_Widget {
 		print $output;
 	}
 
+	/**
+	 * Removes the cache contents matching key and group.
+	 *
+	 * @since  1.0.0
+	 * @return void
+	 */
 	public function flush_widget_cache() {
 		wp_cache_delete( $this->get_widget_slug(), 'widget' );
 	}
@@ -179,7 +195,7 @@ class Cherry_Social_Follow extends WP_Widget {
 		$instance['custom_class'] = sanitize_html_class( $new_instance['custom_class'] );
 
 		foreach ( $this->follow_items as $id => $value ) {
-			$instance[ $id ] = !empty( $new_instance[ $id ] ) ? 1 : 0;
+			$instance[ $id ] = ! empty( $new_instance[ $id ] ) ? 1 : 0;
 		}
 
 		return $instance;
@@ -214,9 +230,13 @@ class Cherry_Social_Follow extends WP_Widget {
 		// Display the admin form.
 		include( trailingslashit( CHERRY_SOCIAL_ADMIN ) . 'views/social-follow.php' );
 	}
-
 }
 
+/**
+ * Registers a widget.
+ *
+ * @since 1.0.0
+ */
 function cherry_social_register_widget() {
 	if ( class_exists( 'Cherry_Framework' ) ) {
 		register_widget( 'Cherry_Social_Follow' );

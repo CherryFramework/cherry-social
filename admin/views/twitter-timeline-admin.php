@@ -1,13 +1,9 @@
 <?php
-// If this file is called directly, abort.
-if ( ! defined( 'ABSPATH' ) ) {
-	die;
-}
-
 /**
  * Fires before a widget form.
  *
- * @since 1.0.0
+ * @package Cherry_Testimonials_Admin
+ * @since   1.0.0
  */
 do_action( 'cherry_twitter_timeline_widget_form_before' );
 ?>
@@ -48,13 +44,13 @@ do_action( 'cherry_twitter_timeline_widget_form_before' );
 <p>
 	<label for="<?php echo $this->get_field_id( 'link_color' ); ?>"><?php _e( 'Link Color (#):', 'cherry-social' ); ?></label>
 	<input type="text" maxlength="6" name="<?php echo $this->get_field_name( 'link_color' ); ?>" value="<?php echo $link_color; ?>" class="widefat" id="<?php echo $this->get_field_id( 'link_color' ); ?>" /><br>
-	<small><?php _e( "e.g. 89c9fa", 'cherry-social' ); ?></small>
+	<small><?php _e( 'e.g. 89c9fa', 'cherry-social' ); ?></small>
 </p>
 <!-- Widget Border Color: Text Input -->
 <p>
 	<label for="<?php echo $this->get_field_id( 'border_color' ); ?>"><?php _e( 'Border Color (#):', 'cherry-social' ); ?></label>
 	<input type="text" maxlength="6" name="<?php echo $this->get_field_name( 'border_color' ); ?>" value="<?php echo $border_color; ?>" class="widefat" id="<?php echo $this->get_field_id( 'border_color' ); ?>" /><br>
-	<small><?php _e( "e.g. 89c9fa", 'cherry-social' ); ?></small>
+	<small><?php _e( 'e.g. 89c9fa', 'cherry-social' ); ?></small>
 </p>
 <!-- Widget Header: Checkbox -->
 <p>
@@ -88,4 +84,3 @@ do_action( 'cherry_twitter_timeline_widget_form_before' );
  * @since 1.0.0
  */
 do_action( 'cherry_twitter_timeline_widget_form_after' );
-?>

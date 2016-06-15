@@ -4,9 +4,8 @@
  *
  * @package   Cherry_Social
  * @author    Cherry Team
- * @license   GPL-2.0+
- * @link      http://www.cherryframework.com/
- * @copyright 2015 Cherry Team
+ * @license   GPL-3.0+
+ * @copyright 2012 - 2015, Cherry Team
  */
 
 // If this file is called directly, abort.
@@ -14,7 +13,13 @@ if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
-if ( !class_exists( 'Cherry_Twitter_Timeline' ) ) {
+if ( ! class_exists( 'Cherry_Twitter_Timeline' ) ) {
+
+	/**
+	 * Class for Twitter Timeline Widget.
+	 *
+	 * @since 1.0.0
+	 */
 	class Cherry_Twitter_Timeline extends WP_Widget {
 
 		/**
@@ -37,7 +42,7 @@ if ( !class_exists( 'Cherry_Twitter_Timeline' ) ) {
 				__( 'Cherry Twitter Timeline', 'cherry-social' ),
 				array(
 					'classname'   => $this->get_widget_slug() . '-class',
-					'description' => __( 'A widget for Twitter timeline.', 'cherry-social' )
+					'description' => __( 'A widget for Twitter timeline.', 'cherry-social' ),
 				)
 			);
 
@@ -69,11 +74,11 @@ if ( !class_exists( 'Cherry_Twitter_Timeline' ) ) {
 			// Check if there is a cached output.
 			$cache = wp_cache_get( $this->get_widget_slug(), 'widget' );
 
-			if ( !is_array( $cache ) ) {
+			if ( ! is_array( $cache ) ) {
 				$cache = array();
 			}
 
-			if ( !isset( $args['widget_id'] ) ) {
+			if ( ! isset( $args['widget_id'] ) ) {
 				$args['widget_id'] = $this->id;
 			}
 
@@ -96,7 +101,7 @@ if ( !class_exists( 'Cherry_Twitter_Timeline' ) ) {
 			 */
 			do_action( $this->widget_slug . '_before', $args, $instance );
 
-			if ( !empty( $instance['title'] ) ) {
+			if ( ! empty( $instance['title'] ) ) {
 				/**
 				 * Filter the widget title.
 				 *
@@ -116,26 +121,26 @@ if ( !class_exists( 'Cherry_Twitter_Timeline' ) ) {
 			}
 
 			$widget_ID    = esc_attr( $instance['widget_ID'] );
-			$height       = !empty( $instance['height'] )       ? absint( $instance['height'] ) : '';
-			$limit        = !empty( $instance['limit'] )        ? absint( $instance['limit'] ) : '';
-			$link_color   = !empty( $instance['link_color'] )   ? esc_attr( $instance['link_color'] ) : '';
-			$border_color = !empty( $instance['border_color'] ) ? esc_attr( $instance['border_color'] ) : '';
-			$skin         = ( !empty( $instance['skin'] ) && in_array( $instance['skin'], array_keys( $this->get_skin_options() ) ) ) ? $instance['skin'] : '';
+			$height       = ! empty( $instance['height'] )       ? absint( $instance['height'] ) : '';
+			$limit        = ! empty( $instance['limit'] )        ? absint( $instance['limit'] ) : '';
+			$link_color   = ! empty( $instance['link_color'] )   ? esc_attr( $instance['link_color'] ) : '';
+			$border_color = ! empty( $instance['border_color'] ) ? esc_attr( $instance['border_color'] ) : '';
+			$skin         = ( ! empty( $instance['skin'] ) && in_array( $instance['skin'], array_keys( $this->get_skin_options() ) ) ) ? $instance['skin'] : '';
 
 			$chrome = array();
-			if ( !empty( $instance['noheader'] ) ) {
+			if ( ! empty( $instance['noheader'] ) ) {
 				$chrome[] = 'noheader';
 			}
-			if ( !empty( $instance['nofooter'] ) ) {
+			if ( ! empty( $instance['nofooter'] ) ) {
 				$chrome[] = 'nofooter';
 			}
-			if ( !empty( $instance['noborders'] ) ) {
+			if ( ! empty( $instance['noborders'] ) ) {
 				$chrome[] = 'noborders';
 			}
-			if ( !empty( $instance['noscrollbar'] ) ) {
+			if ( ! empty( $instance['noscrollbar'] ) ) {
 				$chrome[] = 'noscrollbar';
 			}
-			if ( !empty( $instance['transparent'] ) ) {
+			if ( ! empty( $instance['transparent'] ) ) {
 				$chrome[] = 'transparent';
 			}
 
@@ -158,6 +163,12 @@ if ( !class_exists( 'Cherry_Twitter_Timeline' ) ) {
 			print $output;
 		}
 
+		/**
+		 * Removes the cache contents matching key and group.
+		 *
+		 * @since  1.0.0
+		 * @return void
+		 */
 		public function flush_widget_cache() {
 			wp_cache_delete( $this->get_widget_slug(), 'widget' );
 		}
@@ -166,8 +177,8 @@ if ( !class_exists( 'Cherry_Twitter_Timeline' ) ) {
 		 * Processes the widget's options to be saved.
 		 *
 		 * @since 1.0.0
-		 * @param array new_instance The new instance of values to be generated via the update.
-		 * @param array old_instance The previous instance of values before the update.
+		 * @param array $new_instance The new instance of values to be generated via the update.
+		 * @param array $old_instance The previous instance of values before the update.
 		 */
 		public function update( $new_instance, $old_instance ) {
 			$instance = $old_instance;
@@ -178,11 +189,11 @@ if ( !class_exists( 'Cherry_Twitter_Timeline' ) ) {
 			$instance['limit']        = absint( $new_instance['limit'] );
 			$instance['link_color']   = trim( $new_instance['link_color'], '#' );
 			$instance['border_color'] = trim( $new_instance['border_color'], '#' );
-			$instance['noheader']     = !empty( $new_instance['noheader'] ) ? 1 : 0;
-			$instance['nofooter']     = !empty( $new_instance['nofooter'] ) ? 1 : 0;
-			$instance['noborders']    = !empty( $new_instance['noborders'] ) ? 1 : 0;
-			$instance['noscrollbar']  = !empty( $new_instance['noscrollbar'] ) ? 1 : 0;
-			$instance['transparent']  = !empty( $new_instance['transparent'] ) ? 1 : 0;
+			$instance['noheader']     = ! empty( $new_instance['noheader'] ) ? 1 : 0;
+			$instance['nofooter']     = ! empty( $new_instance['nofooter'] ) ? 1 : 0;
+			$instance['noborders']    = ! empty( $new_instance['noborders'] ) ? 1 : 0;
+			$instance['noscrollbar']  = ! empty( $new_instance['noscrollbar'] ) ? 1 : 0;
+			$instance['transparent']  = ! empty( $new_instance['transparent'] ) ? 1 : 0;
 			$instance['skin']         = esc_attr( $new_instance['skin'] );
 
 			return $instance;
@@ -192,7 +203,7 @@ if ( !class_exists( 'Cherry_Twitter_Timeline' ) ) {
 		 * Generates the administration form for the widget.
 		 *
 		 * @since 1.0.0
-		 * @param array instance The array of keys and values for the widget.
+		 * @param array $instance The array of keys and values for the widget.
 		 */
 		public function form( $instance ) {
 			/**
@@ -220,7 +231,7 @@ if ( !class_exists( 'Cherry_Twitter_Timeline' ) ) {
 			$title        = esc_attr( $instance['title'] );
 			$widget_ID    = esc_attr( $instance['widget_ID'] );
 			$height       = intval( $instance['height'] );
-			$limit        = !empty( $instance['limit'] ) ? intval( $instance['limit'] ) : esc_attr( $defaults['limit'] );
+			$limit        = ! empty( $instance['limit'] ) ? intval( $instance['limit'] ) : esc_attr( $defaults['limit'] );
 			$skin         = $this->get_skin_options();
 			$link_color   = esc_attr( $instance['link_color'] );
 			$border_color = esc_attr( $instance['border_color'] );
@@ -246,10 +257,14 @@ if ( !class_exists( 'Cherry_Twitter_Timeline' ) ) {
 				'dark'  => __( 'Dark', 'cherry-social' ),
 			) );
 		}
-
 	}
 }
 
+/**
+ * Registers a widget.
+ *
+ * @since 1.0.0
+ */
 function cherry_twitter_timeline_register_widget() {
 	register_widget( 'Cherry_Twitter_Timeline' );
 }
