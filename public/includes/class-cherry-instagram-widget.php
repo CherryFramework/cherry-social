@@ -477,7 +477,7 @@ if ( ! class_exists( 'Cherry_Instagram' ) ) {
 		 * Retrieve a caption.
 		 *
 		 * @since  1.0.4
-		 * @param  array  $photo Item photo data.
+		 * @param  array $photo Item photo data.
 		 * @return string
 		 */
 		public function get_caption( $photo ) {

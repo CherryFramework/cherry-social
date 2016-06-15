@@ -148,8 +148,8 @@ if ( ! class_exists( 'Cherry_Social' ) ) {
 			if ( is_admin() ) {
 				require_once( CHERRY_SOCIAL_ADMIN . '/includes/class-cherry-update/class-cherry-plugin-update.php' );
 
-				$Cherry_Plugin_Update = new Cherry_Plugin_Update();
-				$Cherry_Plugin_Update->init( array(
+				$updater = new Cherry_Plugin_Update();
+				$updater->init( array(
 					'version'         => CHERRY_SOCIAL_VERSION,
 					'slug'            => CHERRY_SOCIAL_SLUG,
 					'repository_name' => CHERRY_SOCIAL_SLUG,
