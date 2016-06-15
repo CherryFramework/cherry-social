@@ -3,7 +3,7 @@
  * Plugin Name: Cherry Social
  * Plugin URI:  http://www.cherryframework.com/
  * Description: A social plugin for WordPress.
- * Version:     1.0.4-beta
+ * Version:     1.0.4-beta2
  * Author:      Cherry Team
  * Author URI:  http://www.cherryframework.com/
  * Text Domain: cherry-social
@@ -101,7 +101,7 @@ if ( ! class_exists( 'Cherry_Social' ) ) {
 		 * @since 1.0.0
 		 */
 		public function constants() {
-			define( 'CHERRY_SOCIAL_VERSION', '1.0.4-beta' );
+			define( 'CHERRY_SOCIAL_VERSION', '1.0.4-beta2' );
 			define( 'CHERRY_SOCIAL_SLUG',    basename( dirname( __FILE__ ) ) );
 			define( 'CHERRY_SOCIAL_DIR',     trailingslashit( plugin_dir_path( __FILE__ ) ) );
 			define( 'CHERRY_SOCIAL_URI',     trailingslashit( plugin_dir_url( __FILE__ ) ) );
