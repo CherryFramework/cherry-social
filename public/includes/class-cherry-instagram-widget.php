@@ -19,6 +19,7 @@ if ( ! class_exists( 'Cherry_Instagram' ) ) {
 	 * Class for Instagram Widget.
 	 *
 	 * @since 1.0.0
+	 * @since 1.0.1 Removed `get_user_id` method.
 	 */
 	class Cherry_Instagram extends WP_Widget {
 
@@ -29,6 +30,22 @@ if ( ! class_exists( 'Cherry_Instagram' ) ) {
 		 * @var   string
 		 */
 		protected $widget_slug = 'cherry-instagram';
+
+		/**
+		 * Instagram API server.
+		 *
+		 * @since 1.0.1
+		 * @var string
+		 */
+		private $service_url = 'https://www.instagram.com/';
+
+		/**
+		 * Data URL.
+		 *
+		 * @since 1.0.1
+		 * @var string
+		 */
+		private $data_url = '';
 
 		/**
 		 * Specifies the classname and description.
@@ -88,7 +105,6 @@ if ( ! class_exists( 'Cherry_Instagram' ) ) {
 
 			extract( $args, EXTR_SKIP );
 
-			$client_id     = esc_attr( $instance['client_id'] );
 			$user_name     = ! empty( $instance['user_name'] )     ? strtolower( trim( $instance['user_name'] ) ) : '';
 			$tag           = ! empty( $instance['tag'] )           ? esc_attr( $instance['tag'] ) : '';
 			$image_counter = ! empty( $instance['image_counter'] ) ? absint( $instance['image_counter'] ) : '';
@@ -109,50 +125,31 @@ if ( ! class_exists( 'Cherry_Instagram' ) ) {
 				}
 			}
 
-			if ( empty( $client_id ) ) {
-				return print $before_widget . __( 'Please, enter your Instagram CLIENT ID.', 'cherry-social' ) . $after_widget;
-			}
-
 			if ( $image_counter <= 0 ) {
 				return '';
 			}
 
 			$config = array();
 
-			if ( ! empty( $instance['link'] ) ) {
-				$config[] = 'link';
-			}
-
 			if ( ! empty( $instance['display_time'] ) ) {
-				$config[] = 'time';
+				$config[] = 'date';
 			}
 
 			if ( ! empty( $instance['display_description'] ) ) {
-				$config[] = 'description';
+				$config[] = 'caption';
 			}
 
 			if ( ! empty( $image_size ) ) {
 				$config['thumb'] = $image_size;
 			}
 
-			if ( 'self' == $endpoints ) {
-				$user_id = $this->get_user_id( $user_name, $client_id );
-
-				if ( ! $user_id ) {
-					return print $before_widget . __( 'Please, enter a valid username and CLIENT ID.', 'cherry-social' ) . $after_widget;
-				}
-
-				$data = $user_id;
-
-			} else {
-				$data = $tag;
-			}
+			$data = ( 'self' == $endpoints ) ? $user_name : $tag;
 
 			$config['endpoints'] = $endpoints;
-			$photos = $this->get_photos( $data, $client_id, $image_counter, $config );
+			$photos = $this->get_photos( $data, $image_counter, $config );
 
 			if ( ! $photos ) {
-				return print $before_widget . __( 'Please, enter a valid CLIENT ID.', 'cherry-social' ) . $after_widget;
+				return print $before_widget . __( 'No photos. Maybe you entered a invalid username or hashtag.', 'cherry-social' ) . $after_widget;
 			}
 
 			$output = $before_widget;
@@ -184,36 +181,24 @@ if ( ! class_exists( 'Cherry_Instagram' ) ) {
 			}
 
 			$date_format = get_option( 'date_format' );
+			$template    = $this->view_template();
 
 			$output .= '<div class="cherry-instagram_items">';
 
 			foreach ( (array) $photos as $key => $photo ) {
 
-				$desc = in_array( 'description', $config ) ? $photo['description'] : '';
-				$output .= '<div class="cherry-instagram_item">';
+				$image   = $this->get_image( $photo, $image_size );
+				$caption = $this->get_caption( $photo );
+				$date    = $this->get_date( $photo, $date_format );
 
-					$output .= '<div class="cherry-instagram_thumbnail ' . sanitize_html_class( $image_size ) . '">';
-						$output .= in_array( 'link', $config ) ? '<a class="cherry-instagram_link" href="' . esc_url( $photo['link'] ) . '" target="_blank">' : '';
-							$output .= '<img src="' . esc_url( $photo['thumb'] ) . '" alt="' . esc_attr( $desc ) . '">';
-						$output .= in_array( 'link', $config ) ? '</a>' : '';
-					$output .= '</div>';
-
-					$wrap = in_array( 'time', $config ) || in_array( 'description', $config ) ? '<div class="cherry-instagram_caption caption">%s</div>' : '%s';
-
-						$_output = in_array( 'time', $config ) ? '<time datetime="' . esc_attr( date( 'Y-m-d\TH:i:sP' ), $photo['time'] ) . '" class="cherry-instagram_date">' . date( $date_format, $photo['time'] ) . '</time>' : '';
-
-						$_output .= in_array( 'description', $config ) ? '<div class="cherry-instagram_desc">' . $photo['description'] . '</div>' : '';
-
-					$output .= sprintf( $wrap, $_output );
-
-				$output .= '</div>';
+				ob_start();
+				include $template;
+				$output .= ob_get_clean();
 			}
 
 			$output .= '</div>';
 
-			$btn_link = ( 'self' == $endpoints ) ? '//instagram.com/' . $user_name : '//instagram.com/explore/tags/' . $tag;
-
-			$output .= $button_text ? '<a href="' . esc_url( $btn_link ) . '" class="btn btn-primary" role="button" target="_blank">' . $button_text . '</a>' : '';
+			$output .= $button_text ? '<a href="' . esc_url( $this->data_url ) . '" class="btn btn-primary" role="button" target="_blank">' . $button_text . '</a>' : '';
 
 			/**
 			 * Fires after a content widget.
@@ -253,7 +238,6 @@ if ( ! class_exists( 'Cherry_Instagram' ) ) {
 			$instance['title']         = strip_tags( $new_instance['title'] );
 			$instance['tag']           = trim( $new_instance['tag'], '#' );
 			$instance['user_name']     = esc_attr( $new_instance['user_name'] );
-			$instance['client_id']     = esc_attr( $new_instance['client_id'] );
 			$instance['button_text']   = esc_attr( $new_instance['button_text'] );
 			$instance['endpoints']     = esc_attr( $new_instance['endpoints'] );
 			$instance['image_size']    = esc_attr( $new_instance['image_size'] );
@@ -261,10 +245,8 @@ if ( ! class_exists( 'Cherry_Instagram' ) ) {
 
 			$instance['display_description'] = ! empty( $new_instance['display_description'] ) ? 1 : 0;
 			$instance['display_time']        = ! empty( $new_instance['display_time'] ) ? 1 : 0;
-			$instance['link']                = ! empty( $new_instance['link'] ) ? 1 : 0;
 
 			// Delete a cache.
-			delete_transient( 'cherry_instagram_user_id' );
 			delete_transient( 'cherry_instagram_photos' );
 
 			return $instance;
@@ -288,12 +270,10 @@ if ( ! class_exists( 'Cherry_Instagram' ) ) {
 				'endpoints'           => 'hashtag', // hashtag or self
 				'user_name'           => '',
 				'tag'                 => '',
-				'client_id'           => '',
 				'image_counter'       => 4,
 				'image_size'          => 'thumbnail',
 				'display_description' => 0,
 				'display_time'        => 0,
-				'link'                => 1,
 				'button_text'         => '',
 			);
 
@@ -302,7 +282,6 @@ if ( ! class_exists( 'Cherry_Instagram' ) ) {
 			$title       = esc_attr( $instance['title'] );
 			$user_name   = esc_attr( $instance['user_name'] );
 			$tag         = esc_attr( $instance['tag'] );
-			$client_id   = esc_attr( $instance['client_id'] );
 			$button_text = esc_attr( $instance['button_text'] );
 
 			// Input (number)
@@ -315,10 +294,94 @@ if ( ! class_exists( 'Cherry_Instagram' ) ) {
 			// Checkbox
 			$display_description = (bool) $instance['display_description'];
 			$display_time        = (bool) $instance['display_time'];
-			$link                = (bool) $instance['link'];
 
 			// Display the admin form.
 			include( trailingslashit( CHERRY_SOCIAL_ADMIN ) . 'views/instagram-admin.php' );
+		}
+
+		/**
+		 * Retrieve a photos.
+		 *
+		 * @since  1.0.0
+		 * @since  1.0.1  Removed `$client_id` parametr.
+		 * @param  string $data        User name or hashtag.
+		 * @param  int    $img_counter Number of images.
+		 * @param  array  $config      Set of configuration.
+		 * @return array
+		 */
+		public function get_photos( $data, $img_counter, $config ) {
+			$cached = get_transient( 'cherry_instagram_photos' );
+
+			if ( false !== $cached ) {
+				return $cached;
+			}
+
+			if ( 'self' == $config['endpoints'] ) {
+				$this->data_url = $this->service_url . $data;
+			} else {
+				$this->data_url = $this->service_url . 'explore/tags/' . $data;
+			}
+
+			$url = add_query_arg(
+				array( '__a' => 1 ),
+				$this->data_url
+			);
+
+			$response = wp_remote_get( $url );
+
+			if ( is_wp_error( $response ) || empty( $response ) || '200' != $response ['response']['code'] ) {
+				return false;
+			}
+
+			$result  = json_decode( wp_remote_retrieve_body( $response ), true );
+
+			if ( ! is_array( $result ) ) {
+				return false;
+			}
+
+			$key = ( 'self' == $config['endpoints'] ) ? 'user' : 'tag';
+
+			if ( empty( $result[ $key ] ) ) {
+				return false;
+			}
+
+			if ( empty( $result[ $key ]['media']['nodes'] ) ) {
+				return false;
+			}
+
+			$nodes   = $result[ $key ]['media']['nodes'];
+			$photos  = array();
+			$counter = 1;
+
+			foreach ( $nodes as $photo ) {
+
+				if ( $counter > $img_counter ) {
+					break;
+				}
+
+				$_photo          = array();
+				$_photo['image'] = $photo['thumbnail_src'];
+				$_photo['link']  = $photo['code'];
+
+				if ( in_array( 'date', $config ) ) {
+					$_photo['date'] = sanitize_text_field( $photo['date'] );
+				}
+
+				if ( in_array( 'caption', $config ) ) {
+					$_photo['caption'] = wp_html_excerpt(
+						$photo['caption'],
+						apply_filters( 'cherry_instagram_caption_length', 10 ),
+						apply_filters( 'cherry_instagram_caption_more', '&hellip;' )
+					);
+				}
+
+				array_push( $photos, $_photo );
+				$counter++;
+			}
+
+			set_transient( 'cherry_instagram_photos', $photos, HOUR_IN_SECONDS );
+
+			return $photos;
 		}
 
 		/**
@@ -348,126 +411,115 @@ if ( ! class_exists( 'Cherry_Instagram' ) ) {
 		}
 
 		/**
-		 * Retrieve a user name by ID.
+		 * Retrieve a HTML link with image.
 		 *
-		 * @since  1.0.0
-		 * @param  string $user_name User name.
-		 * @param  string $client_id Instagram CLIENT ID.
+		 * @since  1.0.1  Changed link `href` attribute.
+		 * @param  array  $photo      Item photo data.
+		 * @param  string $image_size Photo size.
 		 * @return string
 		 */
-		public function get_user_id( $user_name, $client_id ) {
-			$cached = get_transient( 'cherry_instagram_user_id' );
+		public function get_image( $photo, $image_size ) {
+			$link = sprintf( $this->get_post_url(), $photo['link'] );
+			$size = $this->_get_relation_image_size( $image_size );
 
-			if ( false !== $cached ) {
-				return $cached;
+			if ( ! is_array( $size ) || empty( $size ) ) {
+				$size = array( 150, 150 );
 			}
 
-			$url = add_query_arg(
-				array( 'q' => esc_attr( $user_name ), 'client_id' => esc_attr( $client_id ) ),
-				'https://api.instagram.com/v1/users/search/'
+			// Replace auto-generated photo size.
+			$width  = $size[0];
+			$height = $size[1];
+			$image  = str_replace( '640x640', "{$width}x{$height}", $photo['image'] );
+
+			return sprintf(
+				'<div class="cherry-instagram_thumbnail %s"><a class="cherry-instagram_link" href="%s" target="_blank" rel="nofollow"><img src="%s" alt="" width="%s" height="%s"></a></div>',
+				sanitize_html_class( $image_size ),
+				esc_url( $link ),
+				esc_url( $image ),
+				$width,
+				$height
 			);
-			$response = wp_remote_get( $url );
-
-			if ( is_wp_error( $response ) || empty( $response ) || '200' != $response ['response']['code'] ) {
-				set_transient( 'cherry_instagram_user_id', false, HOUR_IN_SECONDS );
-				return false;
-			}
-
-			$result  = json_decode( wp_remote_retrieve_body( $response ), true );
-			$user_id = false;
-
-			foreach ( $result['data'] as $key => $data ) {
-
-				if ( $user_name != $data['username'] ) {
-					continue;
-				}
-
-				$user_id = $data['id'];
-			}
-
-			set_transient( 'cherry_instagram_user_id', $user_id, HOUR_IN_SECONDS );
-
-			return $user_id;
 		}
 
 		/**
-		 * Retrieve a photos.
+		 * Retrieve a photo sizes (in px) by option name.
 		 *
-		 * @since  1.0.0
-		 * @param  string $data        User name or hashtag.
-		 * @param  string $client_id   Instagram CLIENT ID.
-		 * @param  int    $img_counter Number of images.
-		 * @param  array  $config      Set of configuration.
+		 * @since  1.0.1
+		 * @param  string $image_size Photo size.
 		 * @return array
 		 */
-		public function get_photos( $data, $client_id, $img_counter, $config ) {
-			$cached = get_transient( 'cherry_instagram_photos' );
+		public function _get_relation_image_size( $image_size ) {
 
-			if ( false !== $cached ) {
-				return $cached;
-			}
-
-			if ( 'self' == $config['endpoints'] ) {
-				$old_url = 'https://api.instagram.com/v1/users/' . $data . '/media/recent/';
-			} else {
-				$old_url = 'https://api.instagram.com/v1/tags/' . $data . '/media/recent/';
-			}
-
-			$url = add_query_arg(
-				array( 'client_id' => esc_attr( $client_id ) ),
-				$old_url
-			);
-
-			$response = wp_remote_get( $url );
-
-			if ( is_wp_error( $response ) || empty( $response ) || '200' != $response ['response']['code'] ) {
-				set_transient( 'cherry_instagram_photos', false, HOUR_IN_SECONDS );
-				return false;
-			}
-
-			$result  = json_decode( wp_remote_retrieve_body( $response ), true );
-			$photos  = array();
-			$counter = 1;
-
-			foreach ( $result['data'] as $photo ) {
-
-				if ( $counter > $img_counter ) {
+			switch ( $image_size ) {
+				case 'large':
+					$size = array( 320, 320 );
 					break;
-				}
 
-				if ( 'image' != $photo['type'] ) {
-					continue;
-				}
-
-				$_photo = array();
-
-				if ( in_array( 'link', $config ) ) {
-					$_photo = array_merge( $_photo, array( 'link' => esc_url( $photo['link'] ) ) );
-				}
-
-				if ( in_array( 'time', $config ) ) {
-					$_photo = array_merge( $_photo, array( 'time' => sanitize_text_field( $photo['created_time'] ) ) );
-				}
-
-				if ( in_array( 'description', $config ) ) {
-					$_photo = array_merge( $_photo, array( 'description' => wp_trim_words( $photo['caption']['text'], 3 ) ) );
-				}
-
-				if ( array_key_exists( 'thumb', $config ) ) {
-					$size   = ( 'large' == $config['thumb'] ) ? 'standard_resolution' : 'thumbnail';
-					$_photo = array_merge( $_photo, array( 'thumb' => $photo['images'][ $size ]['url'] ) );
-				}
-
-				if ( ! empty( $_photo ) ) {
-					array_push( $photos, $_photo );
-				}
-
-				$counter++;
+				default:
+					$size = array( 150, 150 );
+					break;
 			}
 
-			set_transient( 'cherry_instagram_photos', $photos, HOUR_IN_SECONDS );
+			return apply_filters( 'cherry_instagram_get_relation_image_size', $size, $image_size );
+		}
 
-			return $photos;
+		/**
+		 * Retrieve a URL for post.
+		 *
+		 * @since  1.0.1
+		 * @return string
+		 */
+		public function get_post_url() {
+			return apply_filters( 'cherry_instagram_get_post_url', $this->service_url . 'p/%s/' );
+		}
+
+		/**
+		 * Retrieve a caption.
+		 *
+		 * @since  1.0.1
+		 * @param  array  $photo Item photo data.
+		 * @return string
+		 */
+		public function get_caption( $photo ) {
+
+			if ( empty( $photo['caption'] ) ) {
+				return;
+			}
+
+			return sprintf( '<div class="cherry-instagram_desc">%s</div>', $photo['caption'] );
+		}
+
+		/**
+		 * Retrieve a HTML tag with date.
+		 *
+		 * @since  1.0.1
+		 * @param  array  $photo  Item photo data.
+		 * @param  string $format Date format.
+		 * @return string
+		 */
+		public function get_date( $photo, $format ) {
+
+			if ( empty( $photo['date'] ) ) {
+				return;
+			}
+
+			return sprintf( '<time class="cherry-instagram_date" datetime="%s">%s</time>', date( 'Y-m-d\TH:i:sP', $photo['date'] ), date( $format, $photo['date'] ) );
+		}
+
+		/**
+		 * Retrieve a view template for widget.
+		 *
+		 * @since  1.0.1
+		 * @return string
+		 */
+		public function view_template() {
+			$template = locate_template( 'templates/instagram/instagram-widget.php', false, false );
+
+			if ( '' === $template ) {
+				$template = trailingslashit( CHERRY_SOCIAL_PUBLIC ) . 'views/instagram-widget.php';
+			}
+
+			return apply_filters( 'cherry_instagram_get_view_template', $template );
 		}
 	}
 }
