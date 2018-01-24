@@ -312,9 +312,9 @@ if ( ! class_exists( 'Cherry_Instagram' ) ) {
 		public function get_photos( $data, $img_counter, $config ) {
 			$cached = get_transient( 'cherry_instagram_photos' );
 
-			if ( false !== $cached ) {
+			/* if ( false !== $cached ) {
 				return $cached;
-			}
+			} */
 
 			if ( 'self' == $config['endpoints'] ) {
 				$this->data_url = $this->service_url . $data;
@@ -360,7 +360,7 @@ if ( ! class_exists( 'Cherry_Instagram' ) ) {
 				}
 
 				$_photo          = array();
-				$_photo['image'] = $photo['thumbnail_src'];
+				$_photo['image'] = $photo['thumbnail_resources'];
 				$_photo['link']  = $photo['code'];
 
 				if ( in_array( 'date', $config ) ) {
@@ -405,8 +405,11 @@ if ( ! class_exists( 'Cherry_Instagram' ) ) {
 		 */
 		public function get_image_size_options() {
 			return apply_filters( 'cherry_instagram_get_image_size_options', array(
-				'large'     => __( 'Large', 'cherry-social' ),
-				'thumbnail' => __( 'Thumbnail', 'cherry-social' ),
+				'150x150' => '150x150',
+				'240x240' => '240x240',
+				'320x320' => '320x320',
+				'480x480' => '480x480',
+				'640x640' => '640x640'
 			) );
 		}
 
@@ -420,47 +423,17 @@ if ( ! class_exists( 'Cherry_Instagram' ) ) {
 		 */
 		public function get_image( $photo, $image_size ) {
 			$link = sprintf( $this->get_post_url(), $photo['link'] );
-			$size = $this->_get_relation_image_size( $image_size );
-
-			if ( ! is_array( $size ) || empty( $size ) ) {
-				$size = array( 150, 150 );
-			}
+			$size_index = array_search( $image_size, array_keys( $this->get_image_size_options() ) );
 
 			// Replace auto-generated photo size.
-			$width  = $size[0];
-			$height = $size[1];
-			$image  = str_replace( '640x640', "{$width}x{$height}", $photo['image'] );
+			$image  = $photo['image'][$size_index]['src'];
 
 			return sprintf(
-				'<div class="cherry-instagram_thumbnail %s"><a class="cherry-instagram_link" href="%s" target="_blank" rel="nofollow"><img src="%s" alt="" width="%s" height="%s"></a></div>',
+				'<div class="cherry-instagram_thumbnail %s"><a class="cherry-instagram_link" href="%s" target="_blank" rel="nofollow"><img src="%s" alt=""></a></div>',
 				sanitize_html_class( $image_size ),
 				esc_url( $link ),
-				esc_url( $image ),
-				$width,
-				$height
+				esc_url( $image )
 			);
-		}
-
-		/**
-		 * Retrieve a photo sizes (in px) by option name.
-		 *
-		 * @since  1.0.4
-		 * @param  string $image_size Photo size.
-		 * @return array
-		 */
-		public function _get_relation_image_size( $image_size ) {
-
-			switch ( $image_size ) {
-				case 'large':
-					$size = array( 320, 320 );
-					break;
-
-				default:
-					$size = array( 150, 150 );
-					break;
-			}
-
-			return apply_filters( 'cherry_instagram_get_relation_image_size', $size, $image_size );
 		}
 
 		/**
